@@ -96,7 +96,7 @@ Fields follow the pattern `XX_FIELD` where `XX` matches the table alias prefix:
 SELECT A1_COD, A1_NOME
 FROM SA1010 SA1
 WHERE SA1.D_E_L_E_T_ = ' '
-  AND SA1.A1_FILIAL = '01'
+  AND SA1.A1_FILIAL = FWxFilial("SA1")
 ```
 
 > **Warning:** Omitting `D_E_L_E_T_` will return deleted records. Omitting the branch filter will return records from all branches, which is usually incorrect and a security risk.
@@ -163,7 +163,7 @@ For SQL Server, use the `%nolock%` DBAccess macro on read queries. This macro tr
 SELECT A1_COD, A1_NOME
 FROM SA1010 SA1 WITH (%nolock%)
 WHERE SA1.D_E_L_E_T_ = ' '
-  AND SA1.A1_FILIAL = '01'
+  AND SA1.A1_FILIAL = FWxFilial("SA1")
   AND SA1.A1_COD = '000001'
   AND SA1.A1_LOJA = '01'
 ```
