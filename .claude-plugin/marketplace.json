@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "engpro-advpl-tlpp-skills",
+  "owner": {
+    "name": "Engenharia Protheus - TOTVS",
+    "url": "https://github.com/totvs/engpro-advpl-tlpp-skills"
+  },
+  "plugins": [
+    {
+      "name": "advpl-tlpp",
+      "source": "./",
+      "description": "Skills de engenharia para desenvolvimento de customizacoes ADVPL/TLPP no TOTVS Protheus ERP.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Engenharia Protheus - TOTVS"
+      },
+      "keywords": [
+        "advpl",
+        "tlpp",
+        "protheus",
+        "totvs"
+      ]
+    }
+  ]
+}

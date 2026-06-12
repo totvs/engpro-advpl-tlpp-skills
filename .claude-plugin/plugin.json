@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "advpl-tlpp",
+  "version": "1.0.0",
+  "description": "Skills de engenharia da TOTVS para desenvolvimento de customizacoes ADVPL/TLPP no Protheus ERP: geracao MVC, endpoints REST/FWRest, pontos de entrada, migracao AdvPL->TLPP, code review, otimizacao SQL, dicionario de dados, planejamento spec-driven, documentacao ProtheusDOC e testes TIR.",
+  "author": {
+    "name": "Engenharia Protheus - TOTVS"
+  },
+  "homepage": "https://github.com/totvs/engpro-advpl-tlpp-skills",
+  "repository": "https://github.com/totvs/engpro-advpl-tlpp-skills",
+  "license": "MIT",
+  "keywords": [
+    "advpl",
+    "tlpp",
+    "protheus",
+    "totvs",
+    "erp",
+    "mvc",
+    "fwrest",
+    "code-review",
+    "sql"
+  ],
+  "skills": "./skills/advpl-tlpp/"
+}

@@ -27,6 +27,7 @@ IAs podem errar.
 - [Coleções Disponíveis](#coleções-disponíveis)
 - [Como Usar](#como-usar)
   - [Onde as Skills Ficam](#onde-as-skills-ficam)
+  - [Instalação como Plugin (Claude Code e Copilot)](#instalação-como-plugin-claude-code-e-copilot)
 - [`CLAUDE.md` e `AGENTS.md` — Instruções de Contexto](#claude-md-e-agents-md-instruções-de-contexto)
   - [O que são `CLAUDE.md` e `AGENTS.md`?](#o-que-são-claude-md-e-agents-md)
   - [Como Usar o `CLAUDE.md` e `AGENTS.md`](#como-usar-o-claude-md-e-agents-md)
@@ -105,6 +106,90 @@ Faça download do pacote de skills e coloque as pastas de skills no local apropr
 | Pessoal | `~/.claude/skills/<skill>/SKILL.md`<br>`~/.agents/skills/<skill>/SKILL.md`<br>`~/.copilot/skills/<skill>/SKILL.md` | Todos os seus projetos |
 | Projeto | `.claude/skills/<skill>/SKILL.md`<br>`.github/skills/<skill>/SKILL.md`<br>`.agents/skills/<skill>/SKILL.md` | Apenas este projeto |
 | Plugin | `<plugin>/skills/<skill>/SKILL.md` | Onde o plugin está habilitado |
+
+### Instalação como Plugin (Claude Code e Copilot)
+
+Este repositório também é um **plugin de agente** no formato aberto compartilhado por **Claude Code**, **GitHub Copilot CLI** e **VS Code**. Em vez de copiar pastas manualmente, você instala todas as skills ADVPL/TLPP de uma vez como o plugin `advpl-tlpp`.
+
+A instalação é feita **diretamente a partir do repositório no GitHub** (o plugin ainda não está publicado em um marketplace público).
+
+#### Instalação no Claude Code (a partir do repo)
+
+São dois passos: adicionar o repositório como **marketplace** e depois **instalar** o plugin do catálogo.
+
+**1. Adicione o repositório como marketplace** — o Claude lê o `.claude-plugin/marketplace.json` e registra o catálogo com o nome `engpro-advpl-tlpp-skills`:
+
+```text
+/plugin marketplace add totvs/engpro-advpl-tlpp-skills
+```
+
+> Formato `owner/repo` do GitHub (o repositório precisa ser público ou você ter acesso). Também funciona com a URL completa — `/plugin marketplace add https://github.com/totvs/engpro-advpl-tlpp-skills` — e dá para fixar uma branch/tag com `#ref` (ex.: `...engpro-advpl-tlpp-skills.git#v1.0.0`).
+
+**2. Instale o plugin** (`plugin@marketplace`):
+
+```text
+/plugin install advpl-tlpp@engpro-advpl-tlpp-skills
+```
+
+Instala no escopo **User** (todos os seus projetos) por padrão. Para escolher o escopo, use o menu interativo: `/plugin` → aba **Discover** → **Enter** no plugin → **User / Project / Local**.
+
+**3. Ative e use** — rode `/reload-plugins` para ativar sem reiniciar. As skills ficam com o namespace do plugin (ex.: `/advpl-tlpp:mvc-generator`, `/advpl-tlpp:code-review`, `/advpl-tlpp:sql-optimization`) e o Claude também as invoca automaticamente conforme o contexto. Veja os componentes em `/plugin` → aba **Installed**.
+
+**Atualizar e gerenciar:**
+
+```text
+/plugin marketplace update engpro-advpl-tlpp-skills    # puxa a versão mais nova do repo
+/plugin list                                           # lista plugins instalados
+/plugin disable advpl-tlpp@engpro-advpl-tlpp-skills    # desativa sem remover
+/plugin uninstall advpl-tlpp@engpro-advpl-tlpp-skills  # remove
+```
+
+| Escopo | Onde vale | Compartilhado |
+| ------ | --------- | ------------- |
+| User (padrão) | Todos os seus projetos | Não — só você |
+| Project | Este repositório | Sim — grava em `.claude/settings.json` |
+| Local | Este repositório | Não — só você |
+
+**Sugerir a instalação automaticamente para o time:** no `.claude/settings.json` do projeto onde o plugin será usado, adicione o marketplace em `extraKnownMarketplaces`. Ao confiar na pasta, o Claude Code propõe instalar:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "engpro-advpl-tlpp-skills": {
+      "source": { "source": "github", "repo": "totvs/engpro-advpl-tlpp-skills" }
+    }
+  }
+}
+```
+
+**Testar localmente antes de instalar** (clone o repositório e rode):
+
+```bash
+claude --plugin-dir ./engpro-advpl-tlpp-skills
+```
+
+> ⚠️ Plugins executam código com seus privilégios — instale apenas de fontes confiáveis. Se o comando `/plugin` não existir, atualize o Claude Code (`npm install -g @anthropic-ai/claude-code@latest`).
+
+#### Instalação no VS Code / GitHub Copilot
+
+O **mesmo plugin** funciona no VS Code e no GitHub Copilot CLI — o formato de manifesto é compartilhado. O Copilot/VS Code detecta o manifesto dedicado em [`.github/plugin/plugin.json`](.github/plugin/plugin.json) automaticamente ao apontar para este repositório.
+
+- **VS Code:** instale a partir da barra lateral de Extensions (seção de plugins de agente), apontando para o repositório. Veja a [documentação oficial](https://code.visualstudio.com/docs/agent-customization/agent-plugins).
+- **GitHub Copilot CLI:** carregue o plugin a partir do repositório conforme a [referência de plugins do Copilot CLI](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference).
+
+As skills ficam disponíveis pelo mesmo nome (`advpl-tlpp:mvc-generator`, etc.).
+
+> **Manifestos:** o plugin tem dois manifestos equivalentes — [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) (Claude Code) e [`.github/plugin/plugin.json`](.github/plugin/plugin.json) (VS Code / Copilot) — além do catálogo [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json). Ambos apontam para as skills de [`skills/advpl-tlpp/`](skills/advpl-tlpp/) (a coleção `superpowers` não é incluída). **Mantenha os dois manifestos em sincronia** ao alterar `name`/`version`/`skills`; a CI valida isso via [`ci/scripts/plugin-validate.sh`](ci/scripts/plugin-validate.sh).
+
+#### Roadmap: publicação no marketplace da comunidade
+
+> **Status:** planejado. No momento o plugin é instalado pela URL do GitHub (acima). A publicação no marketplace público da comunidade (`anthropics/claude-plugins-community`) está no roadmap.
+
+Quando for publicar, o fluxo será:
+
+1. Validar localmente com o CLI oficial: `claude plugin validate` (o mesmo check roda no pipeline de revisão). A CI deste repositório já executa uma validação leve via [`ci/scripts/plugin-validate.sh`](ci/scripts/plugin-validate.sh).
+2. Garantir `version` em [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) — plugins aprovados são fixados por commit SHA e a versão controla as atualizações.
+3. Submeter pelo formulário in-app: [claude.ai](https://claude.ai/admin-settings/directory/submissions/plugins/new) (orgs Team/Enterprise) ou [Console](https://platform.claude.com/plugins/submit) (autores individuais).
 
 ## `CLAUDE.md` e `AGENTS.md` — Instruções de Contexto
 

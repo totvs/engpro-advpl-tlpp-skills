@@ -33,6 +33,22 @@ jobs:
       - name: Run validation scan
         run: ./ci/scripts/validation-scan.sh
 
+  plugin-validate:
+    name: Plugin Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Make scripts executable
+        run: chmod +x ci/scripts/*.sh
+
+      - name: Validate Claude Code plugin manifests
+        run: ./ci/scripts/plugin-validate.sh
+
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
@@ -57,7 +73,7 @@ jobs:
   build-and-release:
     name: Build & Publish Release Artifacts
     runs-on: ubuntu-latest
-    needs: [validation-scan, security-scan]
+    needs: [validation-scan, plugin-validate, security-scan]
     if: github.event_name == 'release'
     steps:
       - name: Checkout repository
