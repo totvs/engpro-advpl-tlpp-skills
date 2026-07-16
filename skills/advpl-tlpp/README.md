@@ -27,7 +27,7 @@ Skills que geram estruturas de código prontas para produção seguindo padrões
 
 | Skill | Descrição |
 |-------|-----------|
-| [mvc-generator](mvc-generator/SKILL.md) | Gera estruturas de telas MVC do Protheus — `ModelDef`, `ViewDef`, `MenuDef` e `BrowseDef` — para padrões de entidade única (Modelo 1) e mestre-detalhe (Modelo 3) usando `FWFormModel`, `FWFormView` e `FWFormBrowse`. |
+| [mvc-generator](mvc-generator/SKILL.md) | Gera estruturas de telas MVC do Protheus — `ModelDef`, `ViewDef`, `MenuDef` e função de Browse — para padrões de entidade única (Modelo 1) e mestre-detalhe (Modelo 3) usando `FWFormModel` (`MPFormModel`), `FWFormView` e `FWMBrowse`. |
 | [tlpp-rest-endpoint-generator](tlpp-rest-endpoint-generator/SKILL.md) | Gera endpoints REST em TLPP usando roteamento baseado em anotações (`@Get`, `@Post`, `@Put`, `@Patch`, `@Delete`) com o objeto `oRest`. Segue os padrões da API TOTVS TTALK incluindo paginação, modelo de erro e documentação Swagger. |
 | [fwrest-client-generator](fwrest-client-generator/SKILL.md) | Gera código AdvPL/TLPP que **consome** APIs REST externas usando a classe cliente `FWRest`. Cobre os verbos `GET`, `POST`, `PUT`, `DELETE`, construção de headers, parâmetros de query/path, serialização de body JSON, autenticação (No Auth, HTTP Basic, Bearer/JWT, OAuth 2.0), timeout, SSL, tratamento de status codes e padrões try/catch em TLPP. |
 | [entry-point-designer](entry-point-designer/SKILL.md) | Projeta e documenta Pontos de Entrada do Protheus com assinaturas adequadas de `User Function`, layouts de parâmetros `PARAMIXB`, especificações de valores de retorno e padrões de programação defensiva. |

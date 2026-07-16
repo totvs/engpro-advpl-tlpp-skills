@@ -1,12 +1,12 @@
 ---
 name: mvc-generator
-description: "Generate Protheus MVC (Model-View-Controller) screen structures including ModelDef, ViewDef, MenuDef, and BrowseDef functions. Supports single-entity (Modelo 1) and master-detail (Modelo 3) patterns with FWFormModel, FWFormView, FWFormBrowse, validations, triggers, and entry point hooks. Use when user says 'create MVC screen', 'ModelDef ViewDef', 'FWFormModel', 'master-detail screen'."
+description: "Generate Protheus MVC (Model-View-Controller) screen structures including ModelDef, ViewDef, MenuDef, and Browse functions. Supports single-entity (Modelo 1) and master-detail (Modelo 3) patterns with FWFormModel, FWFormView, FWMBrowse, validations, triggers, and entry point hooks. Use when user says 'create MVC screen', 'ModelDef ViewDef', 'FWFormModel', 'master-detail screen'."
 license: MIT
 metadata:
   domain: Protheus
   maintainer: Customizações ADVPL/TLPP
   author: Thalion Starforge
-  version: '4.1.0'
+  version: '4.1.1'
   category: Code Generation
 ---
 
@@ -14,7 +14,9 @@ metadata:
 
 ## Overview
 
-Generate complete Protheus MVC screen implementations following the TOTVS framework patterns. Protheus MVC separates business rules (Model), visual presentation (View), and navigation/actions (Controller/Browse) using the `FWFormModel`, `FWFormView`, and `FWFormBrowse` framework classes. This skill generates the three mandatory functions (`ModelDef`, `ViewDef`, `MenuDef`) plus the Browse function that composes them.
+Generate complete Protheus MVC screen implementations following the TOTVS framework patterns. Protheus MVC separates business rules (Model), visual presentation (View), and navigation/actions (Controller/Browse) using the `FWFormModel` and `FWFormView` framework classes, plus `FWMBrowse` for the Browse grid. This skill generates the three mandatory functions (`ModelDef`, `ViewDef`, `MenuDef`) plus the Browse function that composes them.
+
+> **Correction (v4.1.1):** `FWFormBrowse` is not a real Protheus class — the Browse grid is built with `FWMBrowse`. Likewise, `MPFormModel` has no `SetCommit()`/`SetActivate()`/`SetVldActive()` methods; pass `bPreValid`, `bPosValid`, and `bCommit` as the 2nd–4th positional parameters of `MPFormModel():New()` instead (see the Checklist and code templates below). Earlier examples using those fabricated names produced runtime "class not found" errors.
 
 ## When to Use
 
@@ -36,7 +38,7 @@ Use this skill when:
 ┌─────────────────────────────────────────┐
 │  Main Function (e.g., MYMOD01)          │
 │  ├── MenuDef()  → Menu actions          │
-│  └── FWFormBrowse → Browse grid         │
+│  └── FWMBrowse → Browse grid            │
 │       ├── ModelDef() → Business rules   │
 │       │    ├── FWFormStruct → Schema    │
 │       │    ├── FWFormFieldsModel (Form) │
@@ -56,7 +58,7 @@ Use this skill when:
 | `ModelDef()`  | Defines the data model: fields, validations, relationships, triggers | `FWFormModel` object |
 | `ViewDef()`   | Defines the visual layout: panels, grids, field arrangement          | `FWFormView` object  |
 | `MenuDef()`   | Defines available actions: Include, Edit, Delete, View, Copy         | Array of menu items  |
-| Main Function | Creates `FWFormBrowse` and activates the screen                      | —                    |
+| Main Function | Creates `FWMBrowse` and activates the screen                         | —                    |
 
 ---
 
@@ -115,8 +117,8 @@ Run through the MVC Generation Checklist below to verify completeness.
 - [ ] Relationship defined with `SetRelation` for grids
 - [ ] Model and sub-model descriptions set
 - [ ] `SetPrimaryKey({})` called
-- [ ] Validation handlers registered (`SetVldActive`, `SetCommit`)
-- [ ] Grid line validation registered (`SetVldLine`)
+- [ ] `bPreValid`, `bPosValid`, and `bCommit` blocks passed positionally to `MPFormModel():New()` (there is no `SetActivate`/`SetVldActive`/`SetCommit` method)
+- [ ] Grid line validation passed as `bPreLine`/`bPosLine` positional params to `AddGrid()` (there is no `SetPreLine`/`SetVldLine` method)
 
 ### View (ViewDef)
 
@@ -139,7 +141,7 @@ Run through the MVC Generation Checklist below to verify completeness.
 
 - [ ] `#include "fwmvcdef.ch"` present
 - [ ] `#include "totvs.ch"` present
-- [ ] Browse function creates `FWFormBrowse` and sets alias
+- [ ] Browse function creates `FWMBrowse` and sets alias
 - [ ] Legends added to browse if the table has status fields
 - [ ] Validation messages use `Help()` function
 - [ ] `FWFormCommit(oModel)` called in commit handler for standard persistence
@@ -147,7 +149,7 @@ Run through the MVC Generation Checklist below to verify completeness.
 
 ### SonarQube Compliance
 
-- [ ] `FWFormCommit(oModel)` is used for persistence — never override the `FormCommit` method directly; use `FWModelEvent` to intercept commit behavior
+- [ ] `FWFormCommit(oModel)` is used for persistence — never override a `FormCommit` method; to intercept commit behavior, pass a custom block as the `bCommit` (4th) positional parameter of `MPFormModel():New()`
 - [ ] No UI calls (`MsgAlert`, `MsgYesNo`, `Aviso`, `Help`, `Pergunte`, `ParamBox`) inside commit/validation handlers that execute within a transaction
 - [ ] Error handling uses `Try-Catch`, not `ErrorBlock`
 - [ ] Logging via `FWLogMsg()`, not `ConOut()`
@@ -165,6 +167,6 @@ Run through the MVC Generation Checklist below to verify completeness.
 - **"Field not found in SX3"**: The field referenced in `FWFormStruct` must exist in the data dictionary (SX3). Run `CFGX023()` or use SIGACFG to register missing fields.
 - **ModelDef/ViewDef mismatch**: Every field ID added to `FWFormModel` must have a corresponding entry in `FWFormView`. Verify that model and view structures reference the same field set.
 - **Grid rows not saving**: Ensure `FWFormCommit(oModel)` is called in the commit block. For master-detail, the grid model must be added with `AddGrid()` and linked via `SetOwner()`.
-- **Browse shows no records**: Verify `FWFormBrowse():SetAlias()` points to the correct table alias and that the table is accessible from the current branch/company.
+- **Browse shows no records**: Verify `FWMBrowse():SetAlias()` points to the correct table alias and that the table is accessible from the current branch/company.
 - **Validation not triggering**: Field-level validators must be registered in SX3 (X3_VALID) or via `SetFieldAction()` on the model. Check that the trigger field ID matches exactly.
 

@@ -327,9 +327,9 @@ ISAM drivers are deprecated. Migrate to `FWTemporaryTable` with relational mode.
 + EndIf
 ```
 
-## Step 15: Migrate FormCommit Override to FWModelEvent
+## Step 15: Migrate FormCommit Override to the MPFormModel bCommit Parameter
 
-Direct override of the `FormCommit` method is prohibited. Use `FWModelEvent` for commit interception, and `FWFormCommit(oModel)` for standard persistence.
+Direct override of the `FormCommit` method is prohibited. There is no `SetCommit()` method on the model object — pass the commit block as the 4th positional parameter (`bCommit`) of `MPFormModel():New()`, and call `FWFormCommit(oModel)` inside it for standard persistence.
 
 ```diff
 - // BAD: Overriding FormCommit directly
@@ -338,9 +338,11 @@ Direct override of the `FormCommit` method is prohibited. Use `FWModelEvent` for
 -   _Super:FormCommit(oModel)
 - Return
 
-+ // GOOD: Use FWModelEvent for interception
-+ // Register the event in ModelDef:
-+ oModel:SetCommit({|oModel| MyCommitHandler(oModel)})
++ // GOOD: Pass the commit block as the 4th positional parameter of
++ // MPFormModel():New() — there is no SetCommit() method in the Protheus
++ // MVC API. See the mvc-generator skill for the full verified signature.
++ // In ModelDef:
++ // oModel := MPFormModel():New(cModelId, bPreValid, bPosValid, {|oModel| MyCommitHandler(oModel)}, bCancel)
 +
 + Static Function MyCommitHandler(oModel as Object) as Logical
 +   // Pre-commit custom logic

@@ -27,7 +27,7 @@ Skills that generate production-ready code structures following TOTVS framework 
 
 | Skill | Description |
 |-------|-------------|
-| [mvc-generator](mvc-generator/SKILL.md) | Generates Protheus MVC screen structures — `ModelDef`, `ViewDef`, `MenuDef`, and `BrowseDef` — for single-entity (Model 1) and master-detail (Model 3) patterns using `FWFormModel`, `FWFormView`, and `FWFormBrowse`. |
+| [mvc-generator](mvc-generator/SKILL.md) | Generates Protheus MVC screen structures — `ModelDef`, `ViewDef`, `MenuDef`, and Browse function — for single-entity (Model 1) and master-detail (Model 3) patterns using `FWFormModel` (`MPFormModel`), `FWFormView`, and `FWMBrowse`. |
 | [tlpp-rest-endpoint-generator](tlpp-rest-endpoint-generator/SKILL.md) | Generates TLPP REST endpoints using annotation-based routing (`@Get`, `@Post`, `@Put`, `@Patch`, `@Delete`) with the `oRest` object. Follows TOTVS TTALK API standards including pagination, error model, and Swagger documentation. |
 | [entry-point-designer](entry-point-designer/SKILL.md) | Designs and documents Protheus Entry Points with proper `User Function` signatures, `PARAMIXB` parameter layouts, return value specifications, and defensive programming patterns. |
 | [query-builder](query-builder/SKILL.md) | Builds optimized and secure SQL queries for Protheus tables. Includes mandatory filters (`D_E_L_E_T_`, branch), index-driven query design, SQL injection prevention, and patterns for both Embedded SQL (preferring `FWExecStatement`) and Workarea (`DBSelectArea`/`DBSeek`). |
