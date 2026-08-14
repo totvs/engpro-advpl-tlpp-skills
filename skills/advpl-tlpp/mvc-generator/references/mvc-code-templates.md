@@ -63,7 +63,7 @@ Browse creation also prefers `FWMBrowse()` in TLPP sources over the legacy `FWFo
 A simple CRUD form for one table, with no grid (master-detail), using native TLPP syntax (namespace + `User Function`).
 
 ```tlpp
-#INCLUDE 'PROTHEUS.CH'
+#INCLUDE 'TOTVS.CH'
 #INCLUDE 'FWMVCDEF.CH'
 #include "tlpp-core.th"
 
@@ -298,7 +298,7 @@ Return lValid
 A form with header fields and a grid of detail items (e.g., invoice header + line items), using native TLPP syntax.
 
 ```tlpp
-#INCLUDE 'PROTHEUS.CH'
+#INCLUDE 'TOTVS.CH'
 #INCLUDE 'FWMVCDEF.CH'
 #include "tlpp-core.th"
 
