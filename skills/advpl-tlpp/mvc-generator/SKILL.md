@@ -66,7 +66,7 @@ This skill uses progressive disclosure. The SKILL.md body covers the architectur
 
 | Reference File | When to Read | Content |
 | --- | --- | --- |
-| [references/mvc-code-templates.md](references/mvc-code-templates.md) | Generating **MVC code** — Single Entity (Modelo 1) or Master-Detail (Modelo 3) templates, event handlers, validation/commit patterns | Full code templates for both MVC patterns, ModelDef/ViewDef/MenuDef boilerplate, validation handlers, commit handlers |
+| [references/mvc-code-templates.md](references/mvc-code-templates.md) | Generating **MVC code** — Single Entity (Modelo 1) or Master-Detail (Modelo 3) templates, event handlers, validation/commit patterns | Full code templates for both MVC patterns and both syntaxes: native TLPP (`Namespace` + `User Function`, 12.1.2410+) and legacy AdvPL (`Static Function`), plus an AdvPL→TLPP migration checklist |
 | [references/mvc-api-reference.md](references/mvc-api-reference.md) | Customizing **FWFormStruct**, adjusting **View layout** (boxes, tabs), configuring **MenuDef** actions, or adding custom menu buttons | FWFormStruct parameters, structure customization (RemoveField, SetProperty, FWBuildFeature), HBox/VBox/Folder layout, action codes table, custom actions |
 
 > Also refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
@@ -84,6 +84,13 @@ Determine the generation pattern from the user's request:
 | Simple CRUD (single table) | Single Entity (Modelo 1) | `AddFields` only, no grid |
 | Master-detail (header + items) | Master-Detail (Modelo 3) | `AddFields` + `AddGrid` + `SetRelation` |
 | Legacy migration (AxCadastro/Mbrowse) | Depends on current structure | Analyze existing code to choose pattern |
+
+Also determine the **syntax variant** before generating code:
+
+| Environment | Syntax | Key Characteristic |
+| --- | --- | --- |
+| Protheus 12.1.2410+ / Lib 20240520+, `.tlpp` files | Native TLPP | `Namespace` declaration required; `MenuDef`/`ModelDef`/`ViewDef` are `User Function`; `FWLoadModel`/action strings use the full namespace + main function name |
+| Protheus < 12.1.2410, `.prw` files, or maintaining existing legacy sources | Legacy AdvPL | `MenuDef`/`ModelDef`/`ViewDef` are `Static Function`, identified by the source file name |
 
 Read the appropriate reference files based on the pattern identified:
 - **Code generation** → read [references/mvc-code-templates.md](references/mvc-code-templates.md)
