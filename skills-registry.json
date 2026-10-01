@@ -23,7 +23,7 @@
     },
     "code-generation": {
       "name": "Code Generation",
-      "description": "Skills for generating Protheus MVC screens, REST endpoints, entry points, and FWRest clients"
+      "description": "Skills for generating Protheus MVC screens, REST endpoints, entry points, FWRest clients, and FwMsExcelXlsx spreadsheet exports"
     },
     "testing": {
       "name": "Testing",
@@ -163,6 +163,21 @@
       ],
       "author": "Thalion Starforge",
       "version": "4.1.0"
+    },
+    {
+      "name": "fwmsexcelxlsx-generator",
+      "description": "Gera customizações AdvPL/TLPP (sempre User Function) que exportam dados do Protheus para planilha Excel .xlsx usando a classe de framework FwMsExcelXlsx, padrão recomendado pela TOTVS — abas, tabelas, colunas com alinhamento, formato e totalizador, fonte da planilha, gravação direta em arquivo ou no banco para grandes volumes, verificação da printer.exe e entrega em SmartClient, WebApp ou job. A classe legada FWMsExcelEx só é usada com pedido explícito. Use quando o usuário pedir 'exportar para Excel', 'gerar planilha', 'gerar xlsx', 'integração com Excel', 'relatório em Excel', 'planilha com várias abas', 'FwMsExcelXlsx', 'FWMsExcelEx'.",
+      "category": "code-generation",
+      "path": "advpl-tlpp/fwmsexcelxlsx-generator",
+      "files": [
+        "SKILL.md",
+        "references/fwmsexcelxlsx-api-reference.md",
+        "references/fwmsexcelxlsx-examples.md",
+        "references/legacy-fwmsexcelex-api-reference.md",
+        "references/legacy-fwmsexcelex-examples.md"
+      ],
+      "author": "Renato Cunha",
+      "version": "1.0.0"
     },
     {
       "name": "mvc-generator",
