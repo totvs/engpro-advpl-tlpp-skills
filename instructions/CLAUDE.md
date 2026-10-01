@@ -334,7 +334,7 @@ See [.agents/skills/references-skills-reference.md](.agents/skills/references-sk
 
 | Category | Skills |
 |----------|--------|
-| **Code Generation** | `mvc-generator`, `tlpp-rest-endpoint-generator`, `entry-point-designer`, `query-builder` |
+| **Code Generation** | `mvc-generator`, `tlpp-rest-endpoint-generator`, `entry-point-designer`, `query-builder`, `fwmsexcelxlsx-generator` |
 | **Migration** | `advpl-to-tlpp-migration` |
 | **Quality** | `code-review`, `sql-code-review`, `refactor`, `refactor-method-complexity-reduce`, `sql-optimization` |
 | **Tests** | `tir-test-generator` |

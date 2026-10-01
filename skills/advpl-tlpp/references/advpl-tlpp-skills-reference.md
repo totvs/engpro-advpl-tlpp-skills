@@ -31,6 +31,7 @@ Skills that generate production-ready code structures following TOTVS framework 
 | [tlpp-rest-endpoint-generator](tlpp-rest-endpoint-generator/SKILL.md) | Generates TLPP REST endpoints using annotation-based routing (`@Get`, `@Post`, `@Put`, `@Patch`, `@Delete`) with the `oRest` object. Follows TOTVS TTALK API standards including pagination, error model, and Swagger documentation. |
 | [entry-point-designer](entry-point-designer/SKILL.md) | Designs and documents Protheus Entry Points with proper `User Function` signatures, `PARAMIXB` parameter layouts, return value specifications, and defensive programming patterns. |
 | [query-builder](query-builder/SKILL.md) | Builds optimized and secure SQL queries for Protheus tables. Includes mandatory filters (`D_E_L_E_T_`, branch), index-driven query design, SQL injection prevention, and patterns for both Embedded SQL (preferring `FWExecStatement`) and Workarea (`DBSelectArea`/`DBSeek`). |
+| [fwmsexcelxlsx-generator](fwmsexcelxlsx-generator/SKILL.md) | Generates customization code (always `User Function`, AdvPL/TLPP) that exports Protheus data to native `.xlsx` spreadsheets with the recommended framework class `FwMsExcelXlsx`: worksheets, tables, columns with alignment/format/totals, sheet font, file/database write modes for large volumes, `printer.exe` checks, and delivery for SmartClient, WebApp, or jobs. Keeps legacy `FWMsExcelEx` docs/examples for explicit requests only. |
 
 ### Migration and Modernization
 
@@ -112,6 +113,9 @@ Skill-specific reference materials.
 | `tir-test-generator` | [tir-webapp-methods-reference.md](tir-test-generator/references/tir-webapp-methods-reference.md) | `tir.Webapp` methods reference. |
 | `tlpp-rest-endpoint-generator` | [tlpp-rest-endpoint-templates.md](tlpp-rest-endpoint-generator/references/tlpp-rest-endpoint-templates.md) | Complete CRUD endpoint templates and helper functions for TLPP REST APIs. |
 | `tlpp-rest-endpoint-generator` | [ttalk-standards-and-configuration.md](tlpp-rest-endpoint-generator/references/ttalk-standards-and-configuration.md) | TOTVS TTALK standards, REST server configuration, and troubleshooting. |
+| `fwmsexcelxlsx-generator` | [fwmsexcelxlsx-api-reference.md](fwmsexcelxlsx-generator/references/fwmsexcelxlsx-api-reference.md) | `FwMsExcelXlsx` requirements, methods, write modes (`SetWriteinFile`/`SetWriteinDB`), helper functions, and comparison with legacy classes. |
+| `fwmsexcelxlsx-generator` | [fwmsexcelxlsx-examples.md](fwmsexcelxlsx-generator/references/fwmsexcelxlsx-examples.md) | Base template and 4 complete `User Function` examples with `FwMsExcelXlsx`. |
+| `fwmsexcelxlsx-generator` | [legacy-fwmsexcelex-api-reference.md](fwmsexcelxlsx-generator/references/legacy-fwmsexcelex-api-reference.md) · [legacy-fwmsexcelex-examples.md](fwmsexcelxlsx-generator/references/legacy-fwmsexcelex-examples.md) | **Legacy** `FWMsExcelEx` reference and examples — explicit requests only. |
 
 ---
 
@@ -123,6 +127,7 @@ Skill-specific reference materials.
 | Build a REST API | `tlpp-rest-endpoint-generator` |
 | Customize a standard routine | `entry-point-designer` |
 | Write a SQL query for Protheus | `query-builder` |
+| Export data to an Excel spreadsheet (`.xlsx`) | `fwmsexcelxlsx-generator` |
 | Migrate `.prw` to `.tlpp` | `advpl-to-tlpp-migration` |
 | Review code quality | `code-review` |
 | Review SQL code | `sql-code-review` |
