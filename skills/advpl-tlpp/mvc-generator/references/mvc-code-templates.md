@@ -30,7 +30,7 @@ Namespace company.module.feature
 User Function MYMOD01()
   Local oBrowse as Object
 
-  oBrowse := FWFormBrowse():New()
+  oBrowse := FWMBrowse():New()
   oBrowse:SetAlias("ZZ1")
   oBrowse:SetDescription("My Custom Registration")
   oBrowse:AddLegend("ZZ1_STATUS == '1'", "GREEN", "Active")
@@ -58,16 +58,16 @@ Static Function ModelDef() as Object
   // oStruct:SetProperty("ZZ1_STATUS", MODEL_FIELD_INIT, FWBuildFeature(STRUCT_FEATURE_INIPAD, "'1'"))
 
   // Create the model
-  oModel := MPFormModel():New("MYMOD01M")
+  // bPreValid, bPosValid, and bCommit are passed positionally to MPFormModel():New() —
+  // there are no SetActivate()/SetCommit()/SetVldActive() methods on the model object.
+  oModel := MPFormModel():New("MYMOD01M", ;
+    {|oModel| OnModelActivate(oModel)}, ;
+    {|oModel| OnModelValidate(oModel)}, ;
+    {|oModel| OnModelCommit(oModel)})
   oModel:AddFields("ZZ1MASTER", /*cOwner*/, oStruct)
   oModel:SetDescription("My Custom Registration")
   oModel:SetPrimaryKey({})
   oModel:GetModel("ZZ1MASTER"):SetDescription("Registration Data")
-
-  // Validations
-  oModel:SetActivate({|oModel| OnModelActivate(oModel)})
-  oModel:SetCommit({|oModel| OnModelCommit(oModel)})
-  oModel:SetVldActive({|oModel| OnModelValidate(oModel)})
 
   // Field-level validation
   // oModel:AddCalc("ZZ1_FIELD", "ZZ1MASTER", "ZZ1_FIELD", {|oModel| ValidateField(oModel)})
@@ -163,7 +163,7 @@ Namespace company.module.feature
 User Function MYMOD03()
   Local oBrowse as Object
 
-  oBrowse := FWFormBrowse():New()
+  oBrowse := FWMBrowse():New()
   oBrowse:SetAlias("ZZ2")
   oBrowse:SetDescription("Orders Management")
   oBrowse:Activate()
@@ -186,13 +186,20 @@ Static Function ModelDef() as Object
   // oStructDetail:RemoveField("ZZ3_ITEM")
 
   // Create the model
-  oModel := MPFormModel():New("MYMOD03M")
+  // bPosValid and bCommit are passed positionally to MPFormModel():New() — there are no
+  // SetVldActive()/SetCommit() methods on the model object.
+  oModel := MPFormModel():New("MYMOD03M", , ;
+    {|oModel| ValidateModel(oModel)}, ;
+    {|oModel| CommitModel(oModel)})
 
   // Add master (form fields)
   oModel:AddFields("ZZ2MASTER", /*cOwner*/, oStructMaster)
 
-  // Add detail (grid) linked to master
-  oModel:AddGrid("ZZ3DETAIL", "ZZ2MASTER", oStructDetail)
+  // Add detail (grid) linked to master.
+  // Grid line validation is wired here too: AddGrid's 4th/5th positional params are
+  // bPreLine (runs on SETVALUE/DELETE actions) and bPosLine (runs on line change,
+  // equivalent to the old LinhaOk) — there is no SetVldLine()/SetPreLine() method.
+  oModel:AddGrid("ZZ3DETAIL", "ZZ2MASTER", oStructDetail, , {|oGridModel| ValidateGridLine(oGridModel)})
 
   // Define the relationship between master and detail
   oModel:SetRelation("ZZ3DETAIL", {;
@@ -211,16 +218,6 @@ Static Function ModelDef() as Object
   oModel:SetDescription("Orders Management")
   oModel:GetModel("ZZ2MASTER"):SetDescription("Order Header")
   oModel:SetPrimaryKey({})
-
-  // Validations
-  oModel:SetVldActive({|oModel| ValidateModel(oModel)})
-  oModel:SetCommit({|oModel| CommitModel(oModel)})
-
-  // Grid line validation
-  oModel:GetModel("ZZ3DETAIL"):SetVldLine({|oGridModel| ValidateGridLine(oGridModel)})
-
-  // Grid line pre-event
-  // oModel:GetModel("ZZ3DETAIL"):SetPreLine({|oGridModel, nLine, cAction| PreGridLine(oGridModel, nLine, cAction)})
 
 Return oModel
 
@@ -328,9 +325,10 @@ Return lValid
 
 Static Function CommitModel(oModel as Object) as Logical
   // FWFormCommit performs standard database persistence
-  // WARNING: Do NOT override the FormCommit method itself.
+  // WARNING: Do NOT override a FormCommit method.
   // FWFormCommit(oModel) is the correct way to persist data.
-  // To intercept commit behavior, use FWModelEvent instead of overriding FormCommit.
+  // This function itself is the interception point — it's passed as the bCommit
+  // (4th positional) parameter of MPFormModel():New() above.
   FWFormCommit(oModel)
 
   // Post-commit custom logic (e.g., generate financial entries, update stock)
