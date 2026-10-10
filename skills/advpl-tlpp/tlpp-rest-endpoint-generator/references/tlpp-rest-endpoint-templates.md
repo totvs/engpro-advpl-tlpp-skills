@@ -29,6 +29,8 @@ User Function listCustomers() as Logical
   Local jResponse := JsonObject():New() as Json
   Local jItems    := {} as Array
   Local nTotal    := 0 as Numeric
+  Local cLike     := "" as Character
+  Local oStatement as Object
 
   // Parse query parameters
   If jQuery <> Nil
@@ -43,6 +45,11 @@ User Function listCustomers() as Logical
     EndIf
   EndIf
 
+  // Build the LIKE pattern in ADVPL (concat operators differ across databases)
+  If !Empty(cSearch)
+    cLike := "%" + cSearch + "%"
+  EndIf
+
   // Constrain pageSize
   nPageSize := Min(Max(nPageSize, 1), 100)
 
@@ -53,17 +60,17 @@ User Function listCustomers() as Logical
   cQuery += "AND SA1.A1_FILIAL = '" + FWxFilial("SA1") + "' "
 
   If !Empty(cSearch)
-    cQuery += "AND (SA1.A1_NOME LIKE '%' + ? + '%' "
-    cQuery += " OR SA1.A1_COD LIKE '%' + ? + '%') "
+    cQuery += "AND (SA1.A1_NOME LIKE ? "
+    cQuery += " OR SA1.A1_COD LIKE ?) "
   EndIf
 
   cQuery += "ORDER BY SA1.A1_COD, SA1.A1_LOJA "
 
   // Execute query using FWExecStatement to prevent SQL injection
-  Local oStatement := FWExecStatement():New(ChangeQuery(cQuery)) as Object
+  oStatement := FWExecStatement():New(ChangeQuery(cQuery))
   If !Empty(cSearch)
-    oStatement:SetString(1, cSearch)
-    oStatement:SetString(2, cSearch)
+    oStatement:SetString(1, cLike)
+    oStatement:SetString(2, cLike)
   EndIf
 
   // Count total

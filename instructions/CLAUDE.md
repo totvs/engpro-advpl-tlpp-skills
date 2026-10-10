@@ -222,7 +222,7 @@ return
 
 - Always filter `D_E_L_E_T_ = ' '` in SQL queries (Protheus soft-delete)
 - Always filter by branch: `XX_FILIAL = xFilial('XXX')` or equivalent
-- Use `FWExecStatement` or `ChangeQuery()` for SQL injection prevention
+- Use `FWExecStatement` with `?` bind parameters for SQL injection prevention (`ChangeQuery()` only translates the SQL dialect; it does not prevent injection)
 - Use `RetSqlName()` to get the physical table name (e.g.: `SA1010`)
 - Add `%nolock%` in read queries to avoid unnecessary locks
 - Never call `GetMV()`, `SuperGetMV()`, `ExistBlock()`, `Type()`, or `Pergunte()` inside loops

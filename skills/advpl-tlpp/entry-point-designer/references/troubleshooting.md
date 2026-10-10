@@ -2,7 +2,7 @@
 
 ## Entry Point not triggered
 
-The function name must match the expected EP name **exactly** (case-sensitive). Verify:
+The function name must match the expected EP name **exactly** (spelling and any `U_` prefix; ADVPL function names are not case-sensitive). Verify:
 1. No `U_` prefix in the `User Function` declaration
 2. The EP name exists for the standard routine version currently in use
 3. The source file was compiled and is present in the RPO

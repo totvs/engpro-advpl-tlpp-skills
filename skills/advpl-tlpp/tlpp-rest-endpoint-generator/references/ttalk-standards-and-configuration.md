@@ -78,6 +78,6 @@ CORSAllowOrigin=*
 
 - **Endpoint returns 404**: Verify the REST section is configured in `appserver.ini` with `URL=/api` and `PrepareIn=ALL`. The annotation path must match the request URL exactly.
 - **Annotations not detected**: The `.tlpp` file must compile without errors into the RPO. Restart the AppServer after compiling — annotations are registered at server startup.
-- **oRest object is NIL**: Ensure the function signature follows the pattern `Function name(oRest as JsonObject)`. The parameter name must be `oRest` or whatever is used in the annotation.
-- **CORS errors in browser**: Add `CORSAllowOrigin=*` (or specific origins) to the `[HTTP]` section of `appserver.ini`.
+- **oRest object is NIL**: Ensure the endpoint is a `User Function` (or a class method) with the HTTP annotation (`@Get`, `@Post`, ...) immediately above it, declared without parameters. `oRest` is a global object available inside the annotated function, not an argument.
+- **CORS errors in browser**: Add `CORSAllowOrigin=*` (or specific origins) to the `[HTTPURI]` section of `appserver.ini` (the same section shown in REST Server Configuration above).
 - **500 error with no details**: Wrap endpoint logic in `Try-Catch` and return `oRest:setStatusResponse(500, errorJson)` in the catch block. Use `FWLogMsg()` to log errors and check the AppServer log for stack traces.

@@ -64,8 +64,19 @@ check_dependencies() {
         echo "  Linux (Debian/Ubuntu): sudo apt install libc-bin" >&2
         echo "  Linux (RHEL/Fedora):   sudo dnf install glibc-common" >&2
         echo "  macOS: pre-installed with Xcode Command Line Tools" >&2
-        echo "  Windows: use convert-encoding.ps1 (PowerShell) instead" >&2
+        echo "  Windows: use convert-encoding.bat instead" >&2
         exit 1
+    fi
+}
+
+# Convert UTF-8 on stdin to CP1252 on stdout. Characters with no CP1252
+# mapping (emoji, arrows, CJK...) become '?' instead of aborting the file.
+# Falls back to dropping them (iconv -c) if iconv lacks --unicode-subst.
+utf8_to_cp1252() {
+    if printf 'x' | iconv --unicode-subst='?' -f UTF-8 -t CP1252 &>/dev/null; then
+        iconv --unicode-subst='?' -f UTF-8 -t CP1252
+    else
+        iconv -c -f UTF-8 -t CP1252
     fi
 }
 
@@ -148,9 +159,20 @@ convert_file() {
     # Strip BOM if present, then convert
     local iconv_status=0
     if has_bom "$file"; then
-        tail -c +4 "$file" | iconv -f UTF-8 -t CP1252 > "$tmpfile" || iconv_status=$?
+        tail -c +4 "$file" | utf8_to_cp1252 > "$tmpfile" || iconv_status=$?
     else
-        iconv -f UTF-8 -t CP1252 "$file" > "$tmpfile" || iconv_status=$?
+        utf8_to_cp1252 < "$file" > "$tmpfile" || iconv_status=$?
+    fi
+
+    # Warn when characters had no CP1252 mapping (strict pass fails on them)
+    local strict_status=0
+    if has_bom "$file"; then
+        tail -c +4 "$file" | iconv -f UTF-8 -t CP1252 &>/dev/null || strict_status=$?
+    else
+        iconv -f UTF-8 -t CP1252 < "$file" &>/dev/null || strict_status=$?
+    fi
+    if [[ $iconv_status -eq 0 && $strict_status -ne 0 ]]; then
+        echo "WARNING (characters without CP1252 mapping replaced by '?'): $file" >&2
     fi
 
     if [[ $iconv_status -ne 0 ]]; then
