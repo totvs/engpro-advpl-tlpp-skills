@@ -25,7 +25,7 @@ total=0
 _tmpfiles=()
 cleanup_tmpfiles() {
     for f in "${_tmpfiles[@]}"; do
-        [[ -f "$f" ]] && rm -f "$f"
+        rm -f "$f"
     done
 }
 trap cleanup_tmpfiles EXIT INT TERM HUP
@@ -71,12 +71,13 @@ check_dependencies() {
 
 # Convert UTF-8 on stdin to CP1252 on stdout. Characters with no CP1252
 # mapping (emoji, arrows, CJK...) become '?' instead of aborting the file.
-# Falls back to dropping them (iconv -c) if iconv lacks --unicode-subst.
+# GNU libiconv (macOS, Git Bash) has --unicode-subst; glibc (Linux) does not,
+# and there //TRANSLIT maps unknown characters to '?'.
 utf8_to_cp1252() {
     if printf 'x' | iconv --unicode-subst='?' -f UTF-8 -t CP1252 &>/dev/null; then
         iconv --unicode-subst='?' -f UTF-8 -t CP1252
     else
-        iconv -c -f UTF-8 -t CP1252
+        iconv -f UTF-8 -t CP1252//TRANSLIT
     fi
 }
 
