@@ -349,7 +349,7 @@ See [concerns.md](concerns.md) for the full process and template.
 - UI inside `Begin/End Transaction`
 - `FwFreeObj()` / `FreeObj()` instead of `Destroy()`
 - `ConOut()` / `?` for logging
-- Read queries without `%nolock%`
+- `%nolock%` / lock hints in embedded SQL (not translated — fails at runtime)
 - Variables without Hungarian Notation
 - `cFilial` used directly as a variable
 - Code in UTF-8 not converted to CP-1252

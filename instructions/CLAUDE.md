@@ -172,25 +172,27 @@ _Super:new()       // call parent constructor
 return self
 ```
 
-**`static method` declaration syntax** — Inside the class body, `static method` accepts **only the method name with empty `()`** — no parameters, no return type annotation. Both parameters and typed return go **exclusively in the implementation** (outside `endclass`). This is a declaration-block restriction only; the implementation IS allowed to have both:
+**`static method` declaration syntax** — Inside the class body, `static method` accepts **only the method name with empty `()`** — no parameters. Parameters go **exclusively in the implementation** (outside `endclass`). The **return type is the exception**: when the implementation declares a return type, the declaration **must declare the same type** — otherwise the compiler assumes `U` and the AppServer compilation fails with `Return type ('C') is incompatible with its declaration ('U')` (`advpls appre` does not report it; only the real compilation does):
 
-> **Common misconception**: "If I need parameters, I must use `public method`" — this is **WRONG**. `static method` CAN have parameters and return types; they are declared only in the implementation, not in the class body.
+> **Common misconception**: "If I need parameters, I must use `public method`" — this is **WRONG**. `static method` CAN have parameters and return types; parameters are declared only in the implementation, and the return type is declared in both places, identically.
 
 ```tlpp
 // ═══════════════════════════════════════════════════════════════
-// WRONG: parameters or return type in static method declaration
+// WRONG: parameters in the declaration / return type missing from it
 // ═══════════════════════════════════════════════════════════════
 class View
     static method showConsulta(cFilial as character, cCod as character)   // WRONG — parameters forbidden in the declaration
     static method showCopia(cFilial as character, cCod as character)      // WRONG
+    static method getTitulo()                                              // WRONG — implementation returns character, declaration assumes U
 endclass
 
 // ═══════════════════════════════════════════════════════════════
-// CORRECT: empty () in declaration; params and return type in implementation
+// CORRECT: empty () in declaration; params in implementation; return type in both
 // ═══════════════════════════════════════════════════════════════
 class View
     static method showConsulta()   // CORRECT — only empty () in the declaration
     static method showCopia()      // CORRECT
+    static method getTitulo() as character   // CORRECT — same return type as the implementation
 endclass
 
 method showConsulta(cFilial as character, cCod as character) class View   // parameters ONLY here
@@ -198,6 +200,9 @@ return
 
 method showCopia(cFilial as character, cCod as character) class View      // parameters ONLY here
 return
+
+method getTitulo() as character class View                               // return type matches the declaration
+return ""
 ```
 
 > **Source**: Official TOTVS TDN documentation — "Estrutura" (pageId 821588162), "Método Estático" (pageId 334341656), "Declaração de herança" (pageId 822220426).
@@ -224,7 +229,7 @@ return
 - Always filter by branch: `XX_FILIAL = xFilial('XXX')` or equivalent
 - Use `FWExecStatement` or `ChangeQuery()` for SQL injection prevention
 - Use `RetSqlName()` to get the physical table name (e.g.: `SA1010`)
-- Add `%nolock%` in read queries to avoid unnecessary locks
+- **Never use `%nolock%`** (or any lock hint) in embedded SQL: it is not a BeginSQL/DBAccess macro, reaches the database literally and fails at runtime (e.g. SQL Server error 102, `Incorrect syntax near '%'`). Use `FROM %table:XXX% XXX`
 - Never call `GetMV()`, `SuperGetMV()`, `ExistBlock()`, `Type()`, or `Pergunte()` inside loops
 - **`Function` is forbidden**: Customizations **MUST NOT** use `Function` (public scope) — **ALWAYS** use `User Function` (prefix `U_`) or `Static Function` (file-private). The standard RPO reserves the `Function` scope for the product; customizations must use `User Function` for public routines and `Static Function` for file-internal helper functions.
 - **Entry Points — `U_` prefix forbidden in the function name**: When declaring an Entry Point, **NEVER** add the `U_` prefix to the function name in the source code. The declared name must match **exactly** the EP name defined by the standard routine (e.g., `User Function MT410INC()`, **never** `User Function U_MT410INC()`). The compiler resolves the `U_` prefix automatically at runtime via `ExistBlock()`; declaring it with `U_` prevents the EP from being located by the standard routine.
@@ -275,7 +280,7 @@ using namespace totvs.framework.structure.interface
 - **Refactoring**: Fix violations found in modified lines/functions. Never introduce new ones.
 - **Optimization**: Respect performance rules (G2). Never use prohibited APIs or bypass framework abstractions.
 
-> **Full rules reference** (G1–G5: Security, Performance, Legacy/Deprecated, Metadata Access, Compilation): read [.agents/skills/references/sonarqube-rules-reference.md](.agents/skills/references/sonarqube-rules-reference.md) or [.agents/skills/references/sonarqube-rules-reference.md](.agents/skills/references/sonarqube-rules-reference.md) before generating or reviewing code.
+> **Full rules reference** (G1–G5: Security, Performance, Legacy/Deprecated, Metadata Access, Compilation): read [.agents/skills/advpl-tlpp/references/sonarqube-rules-reference.md](.agents/skills/advpl-tlpp/references/sonarqube-rules-reference.md) before generating or reviewing code.
 
 ---
 
@@ -330,7 +335,7 @@ After any **code generation, migration, or refactoring** task, the agent MUST pe
 
 ## Available Agent Skills
 
-See [.agents/skills/references-skills-reference.md](.agents/skills/references-skills-reference.md) or [.agents/skills/references-skills-reference.md](.agents/skills/references-skills-reference.md) for the full catalog. Summary:
+See [.agents/skills/advpl-tlpp/references/advpl-tlpp-skills-reference.md](.agents/skills/advpl-tlpp/references/advpl-tlpp-skills-reference.md) for the full catalog. Summary:
 
 | Category | Skills |
 |----------|--------|

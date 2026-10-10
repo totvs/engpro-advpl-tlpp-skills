@@ -87,8 +87,7 @@ These rules apply to **all** AdvPL/TLPP code generated, modified, or reviewed. N
 Every `SELECT` on a Protheus table MUST include:
 1. `D_E_L_E_T_ = ' '` — Protheus soft-delete
 2. `XX_FILIAL = xFilial('XXX')` — branch filter
-3. `%nolock%` on read queries — avoids unnecessary locks
-4. `RetSqlName('XXX')` to get the physical table name (e.g., `SA1010`)
+3. `RetSqlName('XXX')` to get the physical table name (e.g., `SA1010`)
 
 ### Encoding
 

@@ -60,19 +60,23 @@ WHERE D_E_L_E_T_ = ' '
   AND A1_FILIAL = '01'
 ```
 
-## SQL Server NOLOCK Hint
+## Lock Hints (`%nolock%`)
 
-Use the `%nolock%` DBAccess macro on read-only queries. This macro translates to `WITH (NOLOCK)` on MSSQL (preventing lock escalation) and is silently ignored on PostgreSQL and Oracle (which use MVCC for read consistency).
+Do not use lock hints in embedded SQL. `%nolock%` is not a BeginSQL/DBAccess macro: the preprocessor leaves it untranslated, it reaches the database literally and the query fails at runtime (e.g. SQL Server error 102, `Incorrect syntax near '%'`).
 
 ```sql
--- GOOD: %nolock% macro for read queries in Protheus (cross-DB safe)
+-- BAD: fails at runtime
 SELECT A1_COD, A1_NOME
 FROM SA1010 WITH (%nolock%)
 WHERE D_E_L_E_T_ = ' '
   AND A1_FILIAL = '01'
-```
 
-**When NOT to use NOLOCK:** Queries that feed write operations (read-before-update) should use default locking to ensure data consistency.
+-- GOOD
+SELECT A1_COD, A1_NOME
+FROM SA1010 SA1
+WHERE SA1.D_E_L_E_T_ = ' '
+  AND SA1.A1_FILIAL = '01'
+```
 
 ## FWExecStatement / TCSqlExec Performance
 

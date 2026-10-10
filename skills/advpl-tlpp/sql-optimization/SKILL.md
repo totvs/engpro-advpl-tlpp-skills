@@ -71,7 +71,7 @@ Focus on measurable performance improvements and always test optimizations with 
 
 ## Protheus SQL Optimization
 
-The TOTVS Protheus ERP has specific database access patterns and constraints that require targeted optimization strategies. This covers cross-database compatibility, high-volume table optimization, SIX index alignment, NOLOCK hints, `FWExecStatement`/`TCSqlExec` performance (preferred over legacy `TCQuery`), and Workarea vs. Embedded SQL decision guidance.
+The TOTVS Protheus ERP has specific database access patterns and constraints that require targeted optimization strategies. This covers cross-database compatibility, high-volume table optimization, SIX index alignment, `FWExecStatement`/`TCSqlExec` performance (preferred over legacy `TCQuery`), and Workarea vs. Embedded SQL decision guidance.
 
 For complete Protheus-specific optimization patterns, code examples, and the high-volume table reference, see [sql-optimization.md](references/sql-optimization.md).
 
@@ -80,7 +80,7 @@ For complete Protheus-specific optimization patterns, code examples, and the hig
 - [ ] Queries on SD1/SD2/SE1/SE2/CT2 include branch filter and use indexed columns
 - [ ] `SELECT *` is not used — only necessary columns are selected
 - [ ] `D_E_L_E_T_ = ' '` is present on every Protheus table query
-- [ ] Read-only queries use `%nolock%` hint (cross-DB safe — translates on MSSQL, ignored on PostgreSQL/Oracle)
+- [ ] No `%nolock%` / lock hint in embedded SQL (not translated — fails at runtime)
 - [ ] No `FWExecStatement`, `TCQuery` or `TCSqlExec` calls inside loops — batch with `:SetIn()` or a single statement
 - [ ] Temporary aliases opened by `FWExecStatement:OpenAlias()` (or legacy `TCQuery ... New Alias`) are closed after use and `:Destroy()` is called
 - [ ] `RetSqlName()` is used instead of hardcoded table names (e.g., `SA1010`)
