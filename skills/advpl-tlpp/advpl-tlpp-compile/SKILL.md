@@ -73,7 +73,7 @@ Follow these steps in order. Skip a step only when its precondition is already s
 
 ### Step 0 — Confirm intent when chained after code generation
 
-If this skill is being triggered automatically right after another skill produced or changed code (e.g. `mvc-generator`, `smartx-generator`, `advpl-to-tlpp-migration`, `refactor`), **ask the user first** whether they want to compile the generated source now. Only proceed when the user confirms. When the user invoked compilation directly, skip this step.
+If this skill is being triggered automatically right after another skill produced or changed code (e.g. `mvc-generator`, `advpl-to-tlpp-migration`, `refactor`), **ask the user first** whether they want to compile the generated source now. Only proceed when the user confirms. When the user invoked compilation directly, skip this step.
 
 ### Step 1 — Verify the extension is installed
 

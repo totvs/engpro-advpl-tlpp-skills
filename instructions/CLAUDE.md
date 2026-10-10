@@ -334,9 +334,9 @@ See [.agents/skills/references-skills-reference.md](.agents/skills/references-sk
 
 | Category | Skills |
 |----------|--------|
-| **Code Generation** | `mvc-generator`, `tlpp-rest-endpoint-generator`, `entry-point-designer`, `query-builder`, `fwmsexcelxlsx-generator` |
+| **Code Generation** | `mvc-generator`, `tlpp-rest-endpoint-generator`, `entry-point-designer`, `query-builder`, `fwrest-client-generator`, `fwmsexcelxlsx-generator` |
 | **Migration** | `advpl-to-tlpp-migration` |
-| **Quality** | `code-review`, `sql-code-review`, `refactor`, `refactor-method-complexity-reduce`, `sql-optimization` |
+| **Quality** | `code-review`, `sql-code-review`, `refactor`, `refactor-method-complexity-reduce`, `sql-optimization`, `utf8-to-cp1252-conversion` |
 | **Tests** | `tir-test-generator` |
 | **Build & Compilation** | `advpl-tlpp-compile` |
 | **Documentation & Planning** | `documentation-writer`, `context-map`, `create-implementation-plan`, `data-dictionary-lookup`, `advpl-tlpp-sdd` |

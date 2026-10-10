@@ -29,12 +29,28 @@
       "name": "Testing",
       "description": "Skills for generating TIR end-to-end test scripts for Protheus screens"
     },
+    "build-compilation": {
+      "name": "Build and Compilation",
+      "description": "Skills for compiling AdvPL/TLPP sources and sending them to the RPO"
+    },
     "superpowers": {
       "name": "Superpowers",
       "description": "Meta-workflow skills for orchestrating agents, planning, debugging, and code review processes"
     }
   },
   "skills": [
+    {
+      "name": "advpl-tlpp-compile",
+      "description": "Compile AdvPL/TLPP sources (.prw, .prg, .prx, .tlpp, .ppx, .ppp, .apw, .aph, .apl, .ahu and resources) inside VS Code using the TOTVS Developer Studio (tds-vscode) extension and the servers.json connection registry. Orchestrates the full flow: verifies the TOTVS.tds-vscode extension is installed (installs it if missing), validates/creates the server configuration in servers.json, asks the user which server to use when more than one is registered, drives the connect/authenticate step (password typed by the user — never seen by the agent), runs the build/rebuild command, and reports the compilation result. Use when user says 'compile', 'recompile', 'build source', 'compilar fonte', 'compilar prw/tlpp', 'send to RPO', 'compile in appserver', or after generating/migrating/refactoring AdvPL/TLPP code.",
+      "category": "build-compilation",
+      "path": "advpl-tlpp/advpl-tlpp-compile",
+      "files": [
+        "SKILL.md",
+        "references/tds-vscode-reference.md"
+      ],
+      "author": "Kael Thornwick",
+      "version": "1.0.0"
+    },
     {
       "name": "advpl-tlpp-sdd",
       "description": "Plan and implement Protheus projects/features with 4 adaptive phases — Specify, Design, Tasks, Execute. Auto-sizes depth based on complexity. Creates atomic tasks with verification criteria, atomic commits, requirement traceability, and persistent memory across sessions. Specific to AdvPL/TLPP + Protheus. Use when: (1) Starting new Protheus projects, (2) Working on existing codebases (map modules, architecture, conventions), (3) Planning features (requirements, design, task breakdown), (4) Implementing with verification and atomic commits, (5) Quick tasks (bug fixes, entry points, config), (6) Tracking decisions/blockers/ideas across sessions, (7) Pausing/resuming work. Triggers on: 'initialize project', 'map codebase', 'specify feature', 'discuss feature', 'design', 'tasks', 'implement', 'validate', 'verify work', 'quick fix', 'pause work', 'resume work'.",

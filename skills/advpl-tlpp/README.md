@@ -11,6 +11,7 @@ Uma coleção de **20 skills** de agente IA para o ecossistema **TOTVS Protheus 
   - [Migração e Modernização](#migração-e-modernização)
   - [Qualidade de Código e Revisão](#qualidade-de-código-e-revisão)
   - [Testes](#testes)
+  - [Build e Compilação](#build-e-compilação)
   - [Documentação e Planejamento](#documentação-e-planejamento)
 - [Referências](#referências)
   - [Referências Compartilhadas](#referências-compartilhadas)
@@ -62,6 +63,14 @@ Skills que geram scripts de testes automatizados tanto para lógica de negócio 
 | Skill | Descrição |
 |-------|-----------|
 | [tir-test-generator](tir-test-generator/SKILL.md) | Gera scripts de teste end-to-end **TIR** (TOTVS Interface Robot) em Python para telas do Protheus SmartClient/Webapp. Abrange testes de telas CRUD, testes de telas MVC, interação com grid, telas de parâmetros de relatório, validação de campos e asserções de caixas de mensagem usando `tir.Webapp`. |
+
+### Build e Compilação
+
+Skills que compilam fontes AdvPL/TLPP e os enviam ao RPO.
+
+| Skill | Descrição |
+|-------|-----------|
+| [advpl-tlpp-compile](advpl-tlpp-compile/SKILL.md) | Compila fontes AdvPL/TLPP dentro do VS Code usando a extensão TOTVS Developer Studio (`tds-vscode`) e o registro de conexões `servers.json`. Verifica/instala a extensão, valida a configuração do servidor, pergunta qual servidor usar, conduz a etapa de conexão/autenticação (senha digitada pelo usuário), executa o comando de build/rebuild e reporta o resultado. |
 
 ### Documentação e Planejamento
 
@@ -126,6 +135,7 @@ Materiais de referência específicos de cada skill.
 | `advpl-tlpp-sdd` | [specify.md](advpl-tlpp-sdd/references/specify.md) · [discuss.md](advpl-tlpp-sdd/references/discuss.md) · [design.md](advpl-tlpp-sdd/references/design.md) · [tasks.md](advpl-tlpp-sdd/references/tasks.md) | Fases do pipeline SDD — especificação, discussão de áreas cinzas, design arquitetural e breakdown de tarefas. |
 | `advpl-tlpp-sdd` | [implement.md](advpl-tlpp-sdd/references/implement.md) · [validate.md](advpl-tlpp-sdd/references/validate.md) · [quick-mode.md](advpl-tlpp-sdd/references/quick-mode.md) | Execução, validação/UAT interativo e modo rápido (quick mode) para tarefas pequenas. |
 | `advpl-tlpp-sdd` | [state-management.md](advpl-tlpp-sdd/references/state-management.md) · [session-handoff.md](advpl-tlpp-sdd/references/session-handoff.md) · [roadmap.md](advpl-tlpp-sdd/references/roadmap.md) · [concerns.md](advpl-tlpp-sdd/references/concerns.md) · [context-limits.md](advpl-tlpp-sdd/references/context-limits.md) · [code-analysis.md](advpl-tlpp-sdd/references/code-analysis.md) · [coding-principles.md](advpl-tlpp-sdd/references/coding-principles.md) | Gestão de estado entre sessões, handoff, roadmap, concerns, limites de contexto, análise de código e princípios de codificação. |
+| `advpl-tlpp-compile` | [tds-vscode-reference.md](advpl-tlpp-compile/references/tds-vscode-reference.md) | IDs de comandos do `tds-vscode`, schema do `servers.json`, caminhos por SO, extensões compiláveis e troubleshooting. |
 
 ---
 
@@ -152,4 +162,5 @@ Materiais de referência específicos de cada skill.
 | Planejar uma implementação | `create-implementation-plan` |
 | Conduzir um projeto/feature com Spec-Driven Development | `advpl-tlpp-sdd` |
 | Converter encoding de fontes para CP1252 | `utf8-to-cp1252-conversion` |
+| Compilar fontes e enviá-los ao RPO | `advpl-tlpp-compile` |
 
