@@ -130,7 +130,6 @@ FROM [RetSqlName('XXX')] XXX
 WHERE XXX.X_FILIAL = xFilial('XXX')
   AND XXX.D_E_L_E_T_ = ' '
   AND [specific conditions]
-  %nolock%
 ```
 
 ---

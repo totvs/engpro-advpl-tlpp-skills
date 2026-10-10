@@ -52,7 +52,6 @@ These macros are used in SQL strings and Embedded SQL. DBAccess translates them 
 
 | Macro         | Expansion                                              | Description                                         |
 | ------------- | ------------------------------------------------------ | --------------------------------------------------- |
-| `%nolock%`    | `WITH (NOLOCK)` on MSSQL; ignored on PostgreSQL/Oracle | Prevents lock escalation on read queries            |
 | `%notDel%`    | `D_E_L_E_T_ = ' '`                                     | Soft-delete filter — used in BeginSQL/EndSQL        |
 | `%table:XXX%` | `RetSqlName('XXX')`                                    | Physical table name — used in BeginSQL/EndSQL       |
 | `%Order:XXX%` | `SqlOrder(XXX->(IndexKey()))`                          | Index-ordered column list — used in BeginSQL/EndSQL |

@@ -275,7 +275,7 @@ oExec:Destroy()
 | Missing `D_E_L_E_T_` filter | Returns deleted records | Always add `D_E_L_E_T_ = ' '` |
 | `SELECT *` on Protheus tables | Protheus tables have many system fields; wastes bandwidth | Select only needed columns |
 | Full table scan on SD1/SD2/SE1/SE2 | These transactional tables can have millions of rows | Use indexed columns in `WHERE` clause |
-| Missing `%nolock%` on SQL Server | Causes lock escalation on read queries | Add `%nolock%` hint: `FROM SA1010 WITH (%nolock%)` — the `%nolock%` DBAccess macro translates to `WITH (NOLOCK)` on MSSQL and is silently ignored on PostgreSQL/Oracle (MVCC) |
+| `%nolock%` (or other lock hint) in embedded SQL | `%nolock%` is not a BeginSQL/DBAccess macro: the preprocessor leaves it untranslated, it reaches the database literally and the query fails at runtime (e.g. SQL Server error 102, `Incorrect syntax near '%'`) | Remove the hint: `FROM %table:SA1% SA1` |
 | Concatenating user input into SQL | SQL injection vulnerability | Use `FWExecStatement` or `TcGenQry2` to parameterize queries |
 | Not closing temporary aliases | Resource leak, workarea pollution | Always `QRY->(DbCloseArea())` after use |
 | Hardcoding table suffix (e.g., `SA1010`) | Breaks in multi-company environments | Use `RetSqlName("SA1")` |

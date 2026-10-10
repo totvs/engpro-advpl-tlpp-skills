@@ -157,11 +157,11 @@ Protheus indexes are defined in the SIX table. The first index of each table (or
 
 ### Using Indexes in Embedded SQL
 
-For SQL Server, use the `%nolock%` DBAccess macro on read queries. This macro translates to `WITH (NOLOCK)` on MSSQL and is silently ignored on PostgreSQL/Oracle (MVCC), making it safe to use in cross-database code:
+Do not add lock hints to embedded SQL. `%nolock%` is not a BeginSQL/DBAccess macro: the preprocessor leaves it untranslated, it reaches the database literally and the query fails at runtime (e.g. SQL Server error 102, `Incorrect syntax near '%'`). Reference the table with its alias only:
 
 ```sql
 SELECT A1_COD, A1_NOME
-FROM SA1010 SA1 WITH (%nolock%)
+FROM SA1010 SA1
 WHERE SA1.D_E_L_E_T_ = ' '
   AND SA1.A1_FILIAL = '01'
   AND SA1.A1_COD = '000001'
@@ -205,7 +205,7 @@ For LIKE clauses, build the `%` wildcard on the AdvPL side (`"%" + cSearch + "%"
 | Missing branch filter                         | Returns records from all branches                    | Always add `AND XX_FILIAL = '...'`                                                    |
 | `SELECT *` on Protheus tables                 | Returns dozens of system fields, slow                | List only the fields you need                                                         |
 | Full table scan on SD1/SD2                    | Millions of rows, very slow                          | Use indexed columns in WHERE                                                          |
-| Not using `%nolock%`                          | Lock contention on read queries                      | Add `WITH (%nolock%)` to SELECT tables — cross-DB safe (ignored on PostgreSQL/Oracle) |
+| Using `%nolock%` in embedded SQL              | Not translated — the query fails at runtime          | Remove the hint; use `FROM %table:XXX% XXX` |
 | `D_E_L_E_T_` filter on JOINs missing          | Joined table returns deleted records                 | Add `D_E_L_E_T_ = ' '` to every table in JOIN                                         |
 | Hardcoded company/branch codes                | Breaks in multi-company environments                 | Use `FWxFilial()`, `RetSQLName()`                                                     |
 | Not closing query aliases / `FWExecStatement` | Memory leak, alias exhaustion                        | Always call `(cAlias)->(DBCloseArea())` and `oStatement:Destroy()`                    |
@@ -233,7 +233,7 @@ For LIKE clauses, build the `%` wildcard on the AdvPL side (`"%" + cSearch + "%"
 
 - [ ] Only required fields listed (no `SELECT *`)
 - [ ] WHERE clause order matches index key expression
-- [ ] `%nolock%` hint used for SQL Server read queries
+- [ ] No `%nolock%` / lock hint in embedded SQL
 - [ ] Pagination used for large result sets
 - [ ] JOINs reference indexed columns
 
@@ -257,7 +257,7 @@ Protheus supports **PostgreSQL**, **MSSQL Server**, and **Oracle**. All generate
 
 - **`ChangeQuery(cQuery)`** — translates SQL syntax to the active database dialect (`TOP` → `LIMIT`, etc.). BeginSQL/EndSQL calls it automatically.
 - **`TCGetDB()`** — returns `"MSSQL"`, `"ORACLE"`, or `"POSTGRES"` for DB-specific branching when `ChangeQuery()` is insufficient.
-- **DBAccess macros** — `%nolock%`, `%notDel%`, `%table:XXX%`, `%Order:XXX%` — translated per database in SQL strings.
+- **DBAccess macros** — `%notDel%`, `%table:XXX%`, `%Order:XXX%` — translated per database in SQL strings.
 - **Best practice:** Always use ANSI-compatible SQL (`COALESCE`, `CASE WHEN`, `CONCAT`, `FETCH FIRST`) or rely on `ChangeQuery()`.
 
 > Read [references/cross-database-compatibility.md](references/cross-database-compatibility.md) for full code examples, the DBAccess macros table, and the cross-database function equivalents reference (MSSQL vs PostgreSQL vs Oracle).
@@ -268,7 +268,7 @@ Protheus supports **PostgreSQL**, **MSSQL Server**, and **Oracle**. All generate
 
 - **Missing `D_E_L_E_T_` filter**: All Protheus queries must include `D_E_L_E_T_ = ' '` (or equivalent `%notDel%`) to exclude logically deleted records. Omitting this returns deleted rows.
 - **Wrong physical table name**: Use `RetSQLName('alias')` to get the physical table name. Hardcoded names like `SA1010` will break across environments with different company codes.
-- **Index not being used**: Ensure the `WHERE` clause column order matches the SIX index key expression. Use `%nolock%` hint for SQL Server read-only queries to avoid lock contention.
+- **Index not being used**: Ensure the `WHERE` clause column order matches the SIX index key expression.
 - **Branch/company filter missing**: Use `FWxFilial('alias')` for the branch filter. Hardcoding branch codes causes cross-branch data leakage.
 - **SQL injection via macro-execution**: Never use `&(cExpr)` to build SQL strings. Use `FWExecStatement` to parameterize all dynamic values in queries.
 
