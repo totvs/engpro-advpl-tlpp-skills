@@ -49,7 +49,7 @@ Entry Point names are defined by TOTVS in the standard routines and typically fo
 | Entry Point | Standard Routine | Module | Trigger Moment |
 |---|---|---|---|
 | `MT010INC` | MATA010 | SIGAFAT | Before inclusion |
-| `A010TOK` | MATA010 | SIGAFAT | After SA1 inclusion validation |
+| `A010TOK` | MATA010 | SIGAFAT | After SB1 (product) inclusion validation |
 | `FA080BUT` | FATA080 | SIGAFIN | Button rendering |
 | `MT100GRV` | MATA100 | SIGAFAT | Before save (inside transaction) |
 | `MT100APP` | MATA100 | SIGAFAT | After save (inside transaction) |

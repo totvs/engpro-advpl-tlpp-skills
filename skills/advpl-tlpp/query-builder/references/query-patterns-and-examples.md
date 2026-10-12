@@ -85,6 +85,7 @@ Static Function GetInvoiceDetails(cInvDoc as Character) as Array
   Local cQuery := "" as Character
   Local cAlias := GetNextAlias() as Character
   Local aResult := {} as Array
+  Local oStatement as Object
 
   cQuery := "SELECT SF2.F2_DOC, SF2.F2_SERIE, SF2.F2_EMISSAO, "
   cQuery += "       SD2.D2_COD, SD2.D2_QUANT, SD2.D2_TOTAL, "
@@ -103,7 +104,7 @@ Static Function GetInvoiceDetails(cInvDoc as Character) as Array
   cQuery += "AND SF2.F2_FILIAL = '" + FWxFilial("SF2") + "' "
   cQuery += "AND SF2.F2_DOC = ? "
 
-  Local oStatement := FWExecStatement():New(ChangeQuery(cQuery)) as Object
+  oStatement := FWExecStatement():New(ChangeQuery(cQuery))
   oStatement:SetString(1, cInvDoc)
 
   // OpenAlias executes the prepared query with DB-side bind and returns
