@@ -66,11 +66,12 @@ Skills that generate automated test scripts for both business logic and UI valid
 
 ### Build and Compilation
 
-Skills that compile AdvPL/TLPP sources and send them to the RPO.
+Skills that lint AdvPL/TLPP sources locally and compile them to the RPO.
 
 | Skill | Description |
 |-------|-------------|
 | [advpl-tlpp-compile](../advpl-tlpp-compile/SKILL.md) | Compiles AdvPL/TLPP sources inside VS Code using the TOTVS Developer Studio (`tds-vscode`) extension and the `servers.json` connection registry. Verifies/installs the extension, validates the server configuration, asks which server to use, drives the connect/authenticate step (password typed by the user), runs the build/rebuild command, and reports the result. |
+| [advpl-tlpp-lint](../advpl-tlpp-lint/SKILL.md) | Lints AdvPL/TLPP sources from the command line with the linter of the TOTVS language server (`advpls`, npm package `@totvs/tds-ls`), without an AppServer and without touching the RPO. Works with any agent that can run a shell command: prints one line per diagnostic and exits `0` (clean), `1` (errors) or `2` (usage or environment problem). Catches errors that `advpls appre` lets through, such as a `Catch` without variable. |
 
 ### Documentation and Planning
 
@@ -135,6 +136,7 @@ Skill-specific reference materials.
 | `advpl-tlpp-sdd` | [implement.md](../advpl-tlpp-sdd/references/implement.md) · [validate.md](../advpl-tlpp-sdd/references/validate.md) · [quick-mode.md](../advpl-tlpp-sdd/references/quick-mode.md) | Execution, interactive validation/UAT, and quick mode for small tasks. |
 | `advpl-tlpp-sdd` | [state-management.md](../advpl-tlpp-sdd/references/state-management.md) · [session-handoff.md](../advpl-tlpp-sdd/references/session-handoff.md) · [roadmap.md](../advpl-tlpp-sdd/references/roadmap.md) · [concerns.md](../advpl-tlpp-sdd/references/concerns.md) · [context-limits.md](../advpl-tlpp-sdd/references/context-limits.md) · [code-analysis.md](../advpl-tlpp-sdd/references/code-analysis.md) · [coding-principles.md](../advpl-tlpp-sdd/references/coding-principles.md) | Cross-session state management, handoff, roadmap, concerns, context limits, code analysis, and coding principles. |
 | `advpl-tlpp-compile` | [tds-vscode-reference.md](../advpl-tlpp-compile/references/tds-vscode-reference.md) | `tds-vscode` command IDs, `servers.json` schema, OS-specific paths, compilable extensions, and troubleshooting. |
+| `advpl-tlpp-lint` | [lint-reference.md](../advpl-tlpp-lint/references/lint-reference.md) | `advpls appre` vs. language server linter vs. AppServer compile, tested `@totvs/tds-ls` versions, and why includes go through `initialize`. |
 
 ---
 
@@ -160,6 +162,7 @@ Skill-specific reference materials.
 | Map files before implementing | `context-map` |
 | Plan an implementation | `create-implementation-plan` |
 | Convert source encoding to CP1252 | `utf8-to-cp1252-conversion` |
+| Check the syntax of a source after editing it | `advpl-tlpp-lint` |
 | Compile sources and send them to the RPO | `advpl-tlpp-compile` |
 | Drive a project/feature with Spec-Driven Development | `advpl-tlpp-sdd` |
 

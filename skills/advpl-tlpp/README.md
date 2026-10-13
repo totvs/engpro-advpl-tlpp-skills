@@ -66,11 +66,12 @@ Skills que geram scripts de testes automatizados tanto para lógica de negócio 
 
 ### Build e Compilação
 
-Skills que compilam fontes AdvPL/TLPP e os enviam ao RPO.
+Skills que validam fontes AdvPL/TLPP localmente e os compilam no RPO.
 
 | Skill | Descrição |
 |-------|-----------|
 | [advpl-tlpp-compile](advpl-tlpp-compile/SKILL.md) | Compila fontes AdvPL/TLPP dentro do VS Code usando a extensão TOTVS Developer Studio (`tds-vscode`) e o registro de conexões `servers.json`. Verifica/instala a extensão, valida a configuração do servidor, pergunta qual servidor usar, conduz a etapa de conexão/autenticação (senha digitada pelo usuário), executa o comando de build/rebuild e reporta o resultado. |
+| [advpl-tlpp-lint](advpl-tlpp-lint/SKILL.md) | Valida fontes AdvPL/TLPP pela linha de comando com o linter do language server da TOTVS (`advpls`, pacote npm `@totvs/tds-ls`), sem AppServer e sem tocar o RPO. Funciona com qualquer agente que rode comando de shell: imprime uma linha por diagnóstico e sai com `0` (limpo), `1` (erros) ou `2` (problema de uso ou de ambiente). Pega erros que o `advpls appre` deixa passar, como `Catch` sem variável. |
 
 ### Documentação e Planejamento
 
@@ -136,6 +137,7 @@ Materiais de referência específicos de cada skill.
 | `advpl-tlpp-sdd` | [implement.md](advpl-tlpp-sdd/references/implement.md) · [validate.md](advpl-tlpp-sdd/references/validate.md) · [quick-mode.md](advpl-tlpp-sdd/references/quick-mode.md) | Execução, validação/UAT interativo e modo rápido (quick mode) para tarefas pequenas. |
 | `advpl-tlpp-sdd` | [state-management.md](advpl-tlpp-sdd/references/state-management.md) · [session-handoff.md](advpl-tlpp-sdd/references/session-handoff.md) · [roadmap.md](advpl-tlpp-sdd/references/roadmap.md) · [concerns.md](advpl-tlpp-sdd/references/concerns.md) · [context-limits.md](advpl-tlpp-sdd/references/context-limits.md) · [code-analysis.md](advpl-tlpp-sdd/references/code-analysis.md) · [coding-principles.md](advpl-tlpp-sdd/references/coding-principles.md) | Gestão de estado entre sessões, handoff, roadmap, concerns, limites de contexto, análise de código e princípios de codificação. |
 | `advpl-tlpp-compile` | [tds-vscode-reference.md](advpl-tlpp-compile/references/tds-vscode-reference.md) | IDs de comandos do `tds-vscode`, schema do `servers.json`, caminhos por SO, extensões compiláveis e troubleshooting. |
+| `advpl-tlpp-lint` | [lint-reference.md](advpl-tlpp-lint/references/lint-reference.md) | `advpls appre` × linter do language server × compilação no AppServer, versões testadas do `@totvs/tds-ls` e por que os includes vão no `initialize`. |
 
 ---
 
@@ -162,5 +164,6 @@ Materiais de referência específicos de cada skill.
 | Planejar uma implementação | `create-implementation-plan` |
 | Conduzir um projeto/feature com Spec-Driven Development | `advpl-tlpp-sdd` |
 | Converter encoding de fontes para CP1252 | `utf8-to-cp1252-conversion` |
+| Validar sintaxe de um fonte depois de editar | `advpl-tlpp-lint` |
 | Compilar fontes e enviá-los ao RPO | `advpl-tlpp-compile` |
 

@@ -31,7 +31,7 @@
     },
     "build-compilation": {
       "name": "Build and Compilation",
-      "description": "Skills for compiling AdvPL/TLPP sources and sending them to the RPO"
+      "description": "Skills for linting AdvPL/TLPP sources locally and compiling them to the RPO"
     },
     "superpowers": {
       "name": "Superpowers",
@@ -49,6 +49,19 @@
         "references/tds-vscode-reference.md"
       ],
       "author": "Kael Thornwick",
+      "version": "1.0.0"
+    },
+    {
+      "name": "advpl-tlpp-lint",
+      "description": "Lint AdvPL/TLPP sources (.prw, .prx, .prg, .tlpp, .ch, .th, .apw, .aph, .apl, .ppx, .ppp) from the command line with the linter of the TOTVS language server (advpls, npm package @totvs/tds-ls), without an AppServer and without touching the RPO. Works with any agent that can run a shell command (Codex, Gemini CLI, Copilot, Cursor, Claude): runs a bundled Node.js script, prints one line per diagnostic and exits 0 (clean), 1 (errors) or 2 (usage/environment problem). Catches errors that advpls appre lets through, such as a Catch without variable that the AppServer rejects. Use right after creating or editing any AdvPL/TLPP source, before declaring the task done and before compiling, or when the user says 'lint', 'check syntax', 'validate the source', 'verificar sintaxe', 'validar fonte', 'lint advpl', 'static analysis'.",
+      "category": "build-compilation",
+      "path": "advpl-tlpp/advpl-tlpp-lint",
+      "files": [
+        "SKILL.md",
+        "references/lint-reference.md",
+        "scripts/lint.js"
+      ],
+      "author": "Luis Montes",
       "version": "1.0.0"
     },
     {

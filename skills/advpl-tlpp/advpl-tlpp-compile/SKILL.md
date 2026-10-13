@@ -37,7 +37,7 @@ Use this skill when:
 
 **Do NOT use when:**
 
-- The user only wants static analysis / linting without sending to the RPO.
+- The user only wants static analysis / linting without sending to the RPO — use `advpl-tlpp-lint`.
 - The target language is not AdvPL/TLPP/4GL.
 - The user explicitly wants a command-line (`tds-cli` / `advpls`) build outside VS Code.
 

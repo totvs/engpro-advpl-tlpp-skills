@@ -320,6 +320,7 @@ After any **code generation, migration, or refactoring** task, the agent MUST pe
 - **Compiler**: RDMake (TOTVS proprietary) via TOTVS Language Server in VS Code
 - **Manifests**: `.PRJ` files list sources for each module (no Makefile/Gradle)
 - **Output**: `.O` files (compiled objects) in the RPO (Protheus Object Repository)
+- **Lint**: after creating or editing any AdvPL/TLPP source, run `advpl-tlpp-lint` and get exit `0` before declaring the task done
 
 ---
 
@@ -343,7 +344,7 @@ See [.agents/skills/advpl-tlpp/references/advpl-tlpp-skills-reference.md](.agent
 | **Migration** | `advpl-to-tlpp-migration` |
 | **Quality** | `code-review`, `sql-code-review`, `refactor`, `refactor-method-complexity-reduce`, `sql-optimization`, `utf8-to-cp1252-conversion` |
 | **Tests** | `tir-test-generator` |
-| **Build & Compilation** | `advpl-tlpp-compile` |
+| **Build & Compilation** | `advpl-tlpp-compile`, `advpl-tlpp-lint` |
 | **Documentation & Planning** | `documentation-writer`, `context-map`, `create-implementation-plan`, `data-dictionary-lookup`, `advpl-tlpp-sdd` |
 
 
