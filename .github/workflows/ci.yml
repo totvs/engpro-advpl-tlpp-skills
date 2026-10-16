@@ -12,6 +12,26 @@ permissions:
   contents: write
 
 jobs:
+  skills-cli-smoke:
+    name: Skills CLI (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.20.0'
+
+      - name: Test skill discovery and installation
+        run: npx --yes --package=skills@1.7.2 -c "node ci/scripts/skills-cli-smoke.mjs"
+
   validation-scan:
     name: Validation Scan
     runs-on: ubuntu-latest

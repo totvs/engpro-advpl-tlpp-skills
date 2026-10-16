@@ -17,6 +17,7 @@ Obrigado por querer contribuir! Este guia contém todas as informações necess�
 - [Como Contribuir](#como-contribuir)
   - [Adicionando uma Nova Coleção](#adicionando-uma-nova-coleção)
   - [Adicionando uma Nova Skill a uma Coleção Existente](#adicionando-uma-nova-skill-a-uma-coleção-existente)
+  - [Compatibilidade com a CLI skills](#compatibilidade-com-a-cli-skills)
 - [Boas Práticas para Escrever Skills](#boas-práticas-para-escrever-skills)
   - [Progressive Disclosure](#progressive-disclosure)
   - [Escrevendo Boas Descriptions](#escrevendo-boas-descriptions)
@@ -142,7 +143,7 @@ Utilize tabelas quando houver múltiplas referências para facilitar a leitura:
 
 | Campo | Obrigatório | Descrição |
 |-------|:-----------:|-----------|
-| `name` | Recomendado | Nome da skill em kebab-case. Se omitido, usa o nome do diretório. |
+| `name` | **Sim** | Nome único da skill em kebab-case, igual ao nome do diretório. Obrigatório para descoberta pela CLI `skills`. |
 | `description` | **Sim** | O que a skill faz **e** quando usá-la (frases trigger). Máximo 1024 caracteres. |
 | `license` | Recomendado | Licença da skill (ex: `MIT`). |
 | `metadata` | Recomendado | Bloco de metadados da skill (ver campos abaixo). |
@@ -219,11 +220,27 @@ nova-colecao/
 
 - [ ] Diretório em kebab-case
 - [ ] `SKILL.md` com frontmatter YAML válido
+- [ ] Campo `name` único no repositório e igual ao nome do diretório
 - [ ] Campo `description` com frases trigger
 - [ ] Instruções passo a passo no corpo do `SKILL.md`
 - [ ] Referências em `references/` (se aplicável)
 - [ ] `README.md` da coleção atualizado
 - [ ] Sem `README.md` dentro da pasta da skill
+
+### Compatibilidade com a CLI skills
+
+A CLI usa diretamente as pastas `skills/<coleção>/<nome>/`, sem exigir pacote npm ou instalador próprio.
+
+- Use `name` único entre as coleções e `description` válido no frontmatter.
+- Mantenha referências e scripts dentro da skill: a CLI não copia pastas irmãs. Para documentação compartilhada externa à skill, use HTTPS e informe que o acesso exige internet.
+
+Na raiz do repositório, com Node.js 22.20.0 ou superior, execute:
+
+```sh
+npx --yes --package=skills@1.7.2 -c "node ci/scripts/skills-cli-smoke.mjs"
+```
+
+O teste verifica descoberta, seleção individual e instalação das duas coleções para Copilot, Codex e Claude Code, preservando referências e scripts. Usa a cópia local e diretórios temporários removidos ao final, sem instalar skills no perfil pessoal. O download da CLI requer acesso ao npm.
 
 ---
 

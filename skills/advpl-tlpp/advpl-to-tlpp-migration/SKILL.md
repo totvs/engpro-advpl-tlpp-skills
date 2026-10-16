@@ -95,7 +95,7 @@ For complete before/after diff examples for all 15 steps, see [tlpp-migration-pa
 - [ ] `IIF()` replaced with `If/Else/EndIf` blocks
 - [ ] `FormCommit` overrides migrated to `FWModelEvent` / `FWFormCommit(oModel)` pattern
 
-> Refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
+> Refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
 
 ### Post-Migration
 

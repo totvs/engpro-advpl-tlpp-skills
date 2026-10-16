@@ -2,6 +2,17 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo. Veja [standard-version](https://github.com/conventional-changelog/standard-version) para diretrizes de commits.
 
+## [Não lançado]
+
+### Adicionado
+
+* Guia de instalação direta do GitHub com `npx skills`, incluindo seleção de skills, agentes, escopos e orientações para Windows.
+* Teste de compatibilidade com a CLI `skills` 1.7.2, usando instalações temporárias no Windows e Linux.
+
+### Corrigido
+
+* Links para a referência compartilhada do SonarQube permanecem acessíveis após a instalação independente das skills, via HTTPS.
+
 ## [1.0.0] (2026-05-25)
 
 ### 🎉 Release Inicial

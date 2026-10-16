@@ -69,7 +69,7 @@ This skill uses progressive disclosure. The SKILL.md body covers the architectur
 | [references/mvc-code-templates.md](references/mvc-code-templates.md) | Generating **MVC code** — Single Entity (Modelo 1) or Master-Detail (Modelo 3) templates, event handlers, validation/commit patterns | Full code templates for both MVC patterns, ModelDef/ViewDef/MenuDef boilerplate, validation handlers, commit handlers |
 | [references/mvc-api-reference.md](references/mvc-api-reference.md) | Customizing **FWFormStruct**, adjusting **View layout** (boxes, tabs), configuring **MenuDef** actions, or adding custom menu buttons | FWFormStruct parameters, structure customization (RemoveField, SetProperty, FWBuildFeature), HBox/VBox/Folder layout, action codes table, custom actions |
 
-> Also refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
+> Also refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
 
 ---
 
@@ -156,7 +156,7 @@ Run through the MVC Generation Checklist below to verify completeness.
 - [ ] `GetMV()` / `ExistBlock()` results cached before loops (especially in grid validations)
 - [ ] No direct access to SX3 via `DbSelectArea` — use `FWFormStruct()` or `FWSX3Util()`
 
-> Refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
+> Refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
 
 ---
 
