@@ -23,7 +23,7 @@ The `config.json` file must be placed in the same directory as the test scripts 
 ```json
 {
     "Url": "http://{server}:{port}/",
-    "Browser": "Chrome",
+    "Browser": "Firefox",
     "Environment": "{environment_name}",
     "User": "{username}",
     "Password": "{password}",
@@ -31,40 +31,44 @@ The `config.json` file must be placed in the same directory as the test scripts 
 }
 ```
 
-### Poui — config.json with POUI parameters
+### Poui (SmartX / PO-UI inside Protheus) — config.json
 
 ```json
 {
     "Url": "http://{server}:{port}/",
-    "Browser": "Chrome",
+    "Browser": "Firefox",
     "Environment": "{environment_name}",
     "User": "{username}",
     "Password": "{password}",
     "Language": "pt-br",
-    "POUI": true,
+    "POUI": false,
     "POUILogin": true
 }
 ```
 
-> **Critical for PO-UI tests**: `"POUI": true` enables the PO-UI interface mode. Without this, TIR will try to interact with the legacy SmartClient interface instead of the PO-UI rendered by PO-UI.
+> **Never use `"POUI": true` to automate Protheus.** That key is exclusively for a standalone PO-UI application running **outside** Protheus — with it on, TIR skips the initial-program/environment screen (`#selectStartProg`) and breaks `Setup()`. Inside Protheus, the PO-UI **login** key is `"POUILogin": true` with `"POUI": false`. Testing PO-UI components (the `Poui` class) does not require `"POUI": true`.
+>
+> Add `"NewHome": true` only when the environment renders the new PO-UI card home instead of the classic `tmenu`.
 
 ### Required Parameters
 
 | Key | Type | Description | Example |
 |-----|------|-------------|---------|
 | `Url` | str | The URL that will run the tests | `"http://localhost:8080/"` |
-| `Browser` | str | Browser: `Firefox` or `Chrome` | `"Chrome"` |
+| `Browser` | str | Browser: `Firefox` or `Chrome` | `"Firefox"` |
 | `Environment` | str | Target Protheus environment name | `"ENVIRONMENT"` |
 | `User` | str | Username to login | `"admin"` |
 | `Password` | str | User password | `"admin"` |
 | `Language` | str | Language: `pt-br`, `en-us`, `es-es` | `"pt-br"` |
+| `POUILogin` | bool | Poui Login inteface: `true`, `false` | `true` |
 
 ### POUI Interface Parameters
 
 | Key | Type | Description | Default |
 |-----|------|-------------|---------|
-| `POUI` | bool | **Enable PO-UI interface mode** | `false` |
-| `POUILogin` | bool | Enable when `APPENVIRONMENT` key is active in the environment using POUI login interface. **Deprecated** in >= 12.1.2510 | `false` |
+| `POUI` | bool | Interface mode for a **standalone PO-UI app outside Protheus** — do **not** set to `true` for Protheus tests | `false` |
+| `POUILogin` | bool | Enable when the Protheus environment uses the **PO-UI login screen**. This is the Protheus PO-UI login key (`"POUI": false` + `"POUILogin": true`) | `false` |
+| `NewHome` | bool | Enable when the environment renders the new PO-UI card home instead of the classic `tmenu` — independent of `POUI`/`POUILogin` | `false` |
 | `SSOLogin` | bool | Enable when SSO login is configured — skips login screen | `false` |
 
 ### Additional Parameters
@@ -125,8 +129,9 @@ The TESTSUITE imports the TESTCASE and selects which test methods to run via `su
 ### Webapp vs Poui Selection
 
 - Use `Webapp` for **MVC/legacy** routines (ModelDef/ViewDef/MenuDef, MBrowse, AxCadastro)
-- Use `Poui` for **PO-UI native** routines (files with `totvs.framework.structure` classes)
-- Set `"POUI": true` in `config.json` when using the `Poui` class
+- Use `Poui` for **SmartX native** routines (files with `totvs.framework.structure` classes)
+- **Never set `"POUI": true` for Protheus** — use `"POUILogin": true` (+ `"POUI": false`) when the login screen is PO-UI
+- `Poui` has **no `Setup()`/`SearchBrowse()`/`SetValue()`/`SetButton()`/`ClickFolder()`/`SetBranch()`/`CheckHelp()`**. When the path to the PO-UI screen needs login, environment/branch or a legacy browse, use the **dual-helper**: `Poui()` (autostart, opens the browser) + `Webapp(autostart=False)` (shared driver). Run login/environment/browse/`TearDown()` on the `Webapp` helper and the PO-UI interactions on the `Poui` helper
 
 ### Test Independence
 - Each `test_` method should be independent of other tests
@@ -156,18 +161,21 @@ The TESTSUITE imports the TESTCASE and selects which test methods to run via `su
 - Use `SetButton('Cancelar')` to close forms after Visualizar
 - Use `SetButton('Não')` or `SetButton('Sim')` to handle confirmation dialogs after Salvar
 
-### Screen Interactions (Poui / PO-UI)
+### Screen Interactions (Poui / SmartX)
+- Run PO-UI interactions on the `Poui` helper; run login/environment/browse on the paired `Webapp` helper (dual-helper)
 - Use `InputValue(field, value)` to fill `po-input` fields
 - Use `ClickButton(button)` to click PO-UI buttons
-- Use `ClickTable(columns=..., values=..., click_cell=...)` to interact with table rows
+- Use `ClickTable(columns=..., values=..., click_cell=...)` to interact with table rows (new syntax; legacy `first_column`/`first_content` is deprecated)
 - Use `POtabs(label=...)` to switch tabs
-- Use `WaitShow(string)` / `WaitHide(string)` for async operations
+- Use `ClickCombo(field, value)` for `po-combo` and `ClickSelect(field, value)` for `po-select` (distinct components)
+- Use `WaitShow(string)` / `WaitProcessing(itens)` / `IfExists(string)` for async operations — `Poui` has **no** `WaitHide`
 - Use `CheckResult(field, value, 'po-input')` — always specify the PO component type
 
 ### Assertions
-- End positive tests with `self.oHelper.AssertTrue()` — **NO parameters**
-- End negative tests (expected errors) with `self.oHelper.AssertFalse()` — **NO parameters**
+- End positive tests with `self.oHelper.AssertTrue()` — **do not pass any parameters**
+- End negative tests (expected errors) with `self.oHelper.AssertFalse()` — **do not pass any parameters**
 - Use `CheckResult` before `AssertTrue` to validate specific field values
+- Use `RestoreParameters` before `AssertTrue` for the correct restoration of the parameters
 
 ### Environment Isolation
 - Use a dedicated Protheus environment for TIR execution

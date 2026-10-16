@@ -177,6 +177,10 @@ def test_{ROUTINE}_CT008(self):
     self.oHelper.AssertTrue()
 ```
 
+> **Nested sub-menus use commas, not pipes.** For `Outras Ações → Level1 → Level2` use
+> `sub_item='Level1, Level2'` — the parser splits on `,`. A pipe (`Level1|Level2`) is searched as a
+> single caption and never found (`Couldn't find element`). Never skip an intermediate level.
+
 ## Pattern 9: Report Test with Parameters
 
 ```python
@@ -243,6 +247,66 @@ def test_{ROUTINE}_CT010(self):
 
     self.oHelper.AssertTrue()
 ```
+
+## Pattern 11: SmartX / PO-UI Screen (dual-helper)
+
+`Poui` has no `Setup()`, `SearchBrowse()`, `SetValue()`, `SetButton()`, `ClickFolder()` or `SetBranch()`.
+When the path to the PO-UI screen goes through login, environment/branch or a legacy browse, use the
+**dual-helper**: instantiate `Poui()` (autostart, opens the browser) and `Webapp(autostart=False)`
+(shares the same driver). Login, environment and legacy browse run on the `Webapp` helper; the PO-UI
+screen runs on the `Poui` helper.
+
+```python
+from tir import Poui, Webapp
+import unittest
+
+class {ROUTINE}(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(inst):
+        inst.oHelper_Poui   = Poui()                     # autostart=True: opens the browser
+        inst.oHelper_Webapp = Webapp(autostart=False)     # shares the same driver
+        inst.oHelper_Webapp.Setup('{MODULE}', '{DATE}', 'T1', '{BRANCH}')
+        inst.oHelper_Webapp.Program('{ROUTINE}')
+
+    def test_{ROUTINE}_CT001(self):
+        """CT001 — Include record on a PO-UI screen"""
+
+        self.oHelper_Poui.ClickButton('Novo')
+        self.oHelper_Poui.InputValue('{Field Label 1}', '{value1}')
+        self.oHelper_Poui.InputValue('{Field Label 2}', '{value2}')
+        self.oHelper_Poui.ClickButton('Salvar')
+
+        # Locate the record on the po-table and open it
+        self.oHelper_Poui.ClickTable(columns='{Column}', values='{search_key}', click_cell='Visualizar')
+        self.oHelper_Poui.CheckResult('{Field Label}', '{expected_value}', 'po-input')
+        self.oHelper_Poui.ClickButton('Cancelar')
+
+        self.oHelper_Poui.AssertTrue()
+
+    def test_{ROUTINE}_CT002(self):
+        """CT002 — Required field validation (negative)"""
+
+        self.oHelper_Poui.ClickButton('Novo')
+        self.oHelper_Poui.ClickButton('Salvar')
+        # Poui has no WaitHide — sync with WaitShow / WaitProcessing / IfExists, then assert content
+        self.oHelper_Poui.WaitShow('{validation_message}')
+        self.oHelper_Poui.ClickButton('Cancelar')
+
+        self.oHelper_Poui.AssertFalse()
+
+    @classmethod
+    def tearDownClass(inst):
+        inst.oHelper_Webapp.TearDown()   # close on the helper that owns the session
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+**Notes:**
+- `config.json` for this pattern: `"POUI": false`, `"POUILogin": true` (never `"POUI": true` in Protheus).
+- Combo vs select: `ClickCombo` for `po-combo`, `ClickSelect` for `po-select`.
+- On a new (kendo-grid) browse, `Poui.FilterBrowse(filters)` replaces `SearchBrowse`.
 
 ---
 

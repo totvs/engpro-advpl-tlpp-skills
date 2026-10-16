@@ -18,14 +18,14 @@
 | `SetValue(field, value, grid=True, grid_number=N, row=N)` | Sets a grid cell value | Use `grid=True`, `grid_number` and `row` for grid cells. Always call `LoadGrid()` after. |
 | `GetValue(cField)` | Returns the current field value | `cField`: field label or name |
 | `SetButton(cButton)` | Clicks a button by label | `cButton`: button text (e.g., `'Incluir'`, `'Salvar'`, `'Confirmar'`) |
-| `SetButton(cButton, sub_item=cSub)` | Clicks a menu button with sub-item | `cButton`: main button; `cSub`: sub-item text |
+| `SetButton(cButton, sub_item=cSub)` | Clicks a menu button with sub-item | `cButton`: main button; `cSub`: sub-item text. **Nested sub-menus are comma-separated** (`sub_item='Level1, Level2'`), never pipe — the parser splits on `,` |
 | `SetKey(cKey, grid=False, grid_number=1)` | Sends a keyboard key | `cKey`: key name (`'ENTER'`, `'DOWN'`, `'F12'`, `'DELETE'`, etc.) |
 
 ## Browse & Navigation
 
 | Method | Description | Key Parameters |
 |--------|-------------|----------------|
-| `SearchBrowse(term, key=None, column=None, identifier=None, index=False, filters=[])` | Searches for a record in the browse grid | `term`: search value; `key`: search key name (e.g., `'Filial+codigo + Loja'`); `column`: search column name; `identifier`: search box identifier; `filters`: list of dicts for pre-filtering |
+| `SearchBrowse(term, key=None, column=None, identifier=None, index=False, filters=[])` | Searches for a record in the browse grid. When `filters` is supplied, the call **routes transparently to `FilterBrowse`** on the new browse (kendo-grid) while keeping `key=`/`term` behavior on the legacy browse — so one call works on **both** browse technologies | `term`: search value; `key`: search key name (e.g., `'Filial+codigo + Loja'`); `column`: search column name; `identifier`: search box identifier; `filters`: list of dicts for pre-filtering (drives the new browse) |
 | `ClickFolder(cFolder)` | Clicks a folder/tab on screen | `cFolder`: tab label (e.g., `'Complementos'`) |
 | `SetLateralMenu(cItem)` | Clicks a lateral menu item | `cItem`: menu item text |
 | `ClickTree(cItem)` | Clicks a tree node | `cItem`: node text |
@@ -49,8 +49,8 @@
 | `CheckResult(cField, xExpected)` | Asserts a field value equals expected | `cField`: field name; `xExpected`: expected value |
 | `CheckResult(cField, xExpected, grid=True, line=N, grid_number=N)` | Asserts a grid cell value | Additional grid parameters |
 | `CheckHelp(text_help=cText, button=cBtn)` | Validates a help/error message and clicks button | `text_help`: expected help ID; `button`: button to click |
-| `AssertTrue()` | Asserts no errors occurred in the test | — |
-| `AssertFalse()` | Asserts that errors were expected (negative test) | — |
+| `AssertTrue()` | Asserts no errors occurred in the test | **Call with no arguments — do not pass any parameters** |
+| `AssertFalse()` | Asserts that errors were expected (negative test) | **Call with no arguments — do not pass any parameters** |
 | `WaitFieldValue(cField, xValue)` | Waits until a field has a specific value | `cField`: field; `xValue`: expected value |
 | `WaitShow(cTitle)` | Waits for a screen/dialog to appear | `cTitle`: window title |
 | `WaitHide(cTitle)` | Waits for a screen/dialog to disappear | `cTitle`: window title |
@@ -76,18 +76,26 @@
 
 ---
 
-## Poui Class — PO-UI Screens
+## Poui Class — SmartX / PO-UI Screens
 
-Use `from tir import Poui` when testing **PO-UI native routines** (routines with `totvs.framework.structure` classes). The `Poui` class has different methods from `Webapp` — it maps to PO-UI components.
+Use `from tir import Poui` when testing **SmartX native routines** (routines with `totvs.framework.structure` classes). The `Poui` class has different methods from `Webapp` — it maps to PO-UI components.
+
+> **`Poui` has NO `Setup()`, `SearchBrowse()`, `SetValue()`, `SetButton()`, `ClickFolder()`,
+> `SetBranch()`, `CheckHelp()` or `WaitHide()`.** These belong to `Webapp`. To reach a PO-UI screen that
+> requires login, environment/branch selection or a legacy browse, use the **dual-helper**: `Poui()`
+> (autostart, opens the browser) plus `Webapp(autostart=False)` (shared driver). Run `Setup()`,
+> `Program()`, `SearchBrowse()` and `TearDown()` on the `Webapp` helper; run the PO-UI interactions on
+> the `Poui` helper.
 
 ### Setup & Lifecycle
 
 | Method | Description | Parameters |
 |--------|-------------|------------|
-| `Poui(config_path='', autostart=True)` | Creates a new TIR Poui instance | — |
-| `Setup(initial_program, date='', group='99', branch='01', module='')` | Configures the Protheus session | Same signature as `Webapp.Setup()` |
-| `Program(program_name)` | Opens a specific routine (only when initial program is a module like SIGAFAT) | `program_name`: routine name |
+| `Poui(config_path='', autostart=True)` | Creates a new TIR Poui instance. With `autostart=False`, reuses the shared driver (`Base._shared_driver`) — used by the non-browser helper in the dual-helper pattern | — |
+| `Program(program_name='', module='')` | Sets the program in the initial menu search field (only when the initial program is a module like `SIGAFAT`). `module` is used for the "Change module" dialog | `program_name`: routine name; `module`: optional module |
 | `TearDown()` | Closes the webdriver and ends the test case | — |
+
+> `Setup()` is **not** a `Poui` method — perform login/environment on the paired `Webapp` helper.
 
 ### Field Interaction
 
@@ -115,7 +123,7 @@ Use `from tir import Poui` when testing **PO-UI native routines** (routines with
 
 | Method | Description | Key Parameters |
 |--------|-------------|----------------|
-| `ClickTable(columns, values, click_cell=None, checkbox=None, table_number=1, match_all=False)` | Interacts with a `po-table` row | `columns`: column name(s); `values`: value(s) to match; `click_cell`: column to click; `checkbox`: True/False to toggle |
+| `ClickTable(columns=None, values=None, click_cell=None, checkbox=None, radio_input=None, table_number=1, match_all=False, icon_class=None)` | Interacts with a `po-table` / THF kendo-grid row (new syntax) | `columns`: column name(s); `values`: value(s) to match; `click_cell`: column to click; `checkbox`/`radio_input`: True/False to toggle; `match_all`: act on all matching rows. **Legacy `first_column`/`first_content`/`second_column`/`second_content` are deprecated — do not mix with the new syntax** |
 
 **Examples:**
 ```python
@@ -133,23 +141,28 @@ self.oHelper.ClickTable(columns='Código', values='000001', checkbox=True)
 
 | Method | Description | Key Parameters |
 |--------|-------------|----------------|
-| `CheckResult(field, user_value, po_component='po-input', position=1)` | Checks a field value in a PO-UI component | `field`: field/label; `user_value`: expected value; `po_component`: PO component type (e.g., `'po-input'`, `'po-select'`) |
-| `AssertTrue()` | Asserts no errors occurred | — (no parameters) |
-| `AssertFalse()` | Asserts errors were expected | — (no parameters) |
-| `WaitShow(string, timeout=None)` | Waits for a string/element to appear | `string`: text to wait for |
-| `WaitHide(string, timeout=None)` | Waits for a string/element to disappear | `string`: text to wait for |
-| `WaitProcessing(itens, timeout=None)` | Waits for a processing screen | `itens`: processing message |
+| `CheckResult(field=None, user_value=None, po_component='po-input', position=1)` | Checks a field value in a PO-UI component | `field`: field/label; `user_value`: expected value; `po_component`: PO component type (e.g., `'po-input'`, `'po-select'`) — default `'po-input'` |
+| `AssertTrue()` | Asserts no errors occurred | **Call with no arguments — do not pass any parameters** |
+| `AssertFalse()` | Asserts errors were expected | **Call with no arguments — do not pass any parameters** |
+| `WaitShow(string, timeout=None, throw_error=True)` | Waits for a string/element to appear | `string`: text to wait for |
+| `WaitProcessing(itens, timeout=None)` | Waits for a processing screen (uses WaitShow + WaitHide internally) | `itens`: processing message |
 | `IfExists(string, timeout=5)` | Returns True if element exists | `string`: element text; `timeout`: seconds |
+
+> **`Poui` has no `WaitHide`.** For synchronization use `WaitShow`, `WaitProcessing` or `IfExists`, then
+> assert content. `WaitHide` exists only on `Webapp`.
 
 ### Key Differences: Webapp vs Poui
 
 | Action | Webapp | Poui |
 |--------|--------|------|
+| Login / environment | `Setup(...)` | **No `Setup`** — run it on the paired `Webapp` helper |
+| Open routine | `Program('MATA010')` | `Program('MATA010')` (via the module initial program) |
 | Fill a field | `SetValue('Label', 'value')` | `InputValue('Label', 'value')` |
 | Click a button | `SetButton('Salvar')` | `ClickButton('Salvar')` |
 | Switch tab | `ClickFolder('Tab')` | `POtabs(label='Tab')` |
-| Select combo | `SetValue('Field', 'Option')` | `ClickCombo('Field', 'Option')` |
-| Search browse | `SearchBrowse(term, key='...')` | `ClickTable(columns='...', values='...')` |
+| Combo vs select | `SetValue('Field', 'Option')` | `ClickCombo('Field', 'Option')` for `po-combo`; `ClickSelect('Field', 'Option')` for `po-select` |
+| Search browse | `SearchBrowse(term, key='...')` | **No `SearchBrowse`** — use the `Webapp` helper, or `FilterBrowse(filters)` on a kendo-grid, or `ClickTable(columns=..., values=...)` on a `po-table` |
 | Check field | `CheckResult('FIELD', 'value')` | `CheckResult('Field', 'value', 'po-input')` |
-| Error dialog | `CheckHelp(text_help='...', button='...')` | `WaitShow('message')` |
-| Set branch | `SetBranch('D MG 01')` | Not needed (PO-UI handles branch) |
+| Error dialog | `CheckHelp(text_help='...', button='...')` | `WaitShow('message')` / `IfExists('message')` (no `CheckHelp`) |
+| Wait for element to hide | `WaitHide('title')` | **No `WaitHide`** — use `WaitProcessing` / `IfExists` |
+| Set branch | `SetBranch('D MG 01')` | On the `Webapp` helper (during Incluir/Setup flow) |
