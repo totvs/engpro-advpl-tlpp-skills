@@ -112,7 +112,7 @@ This skill uses progressive disclosure. The SKILL.md body covers the architectur
 | [references/tlpp-rest-endpoint-templates.md](references/tlpp-rest-endpoint-templates.md) | Generating **any CRUD endpoint** — GET list (paginated), GET by ID, POST, PUT, or DELETE | Full code templates for all 5 HTTP verbs, shared helper functions (`BuildErrorResponse`, `BuildValidationErrorResponse`) |
 | [references/ttalk-standards-and-configuration.md](references/ttalk-standards-and-configuration.md) | Checking **TTALK response formats**, **HTTP status codes**, **REST server `appserver.ini` configuration**, or **debugging endpoint issues** | TTALK collection/error JSON formats, pagination query parameters, status code table, `appserver.ini` REST section, troubleshooting guide |
 
-> Also refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
+> Also refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
 
 ---
 
@@ -203,5 +203,5 @@ Use the checklist below to verify the generated code covers all requirements.
 - [ ] No UI functions (`MsgAlert`, `MsgYesNo`, `Aviso`, `Help`) inside transaction-scoped handlers
 - [ ] Includes in lowercase (e.g., `#include "totvs.ch"`)
 
-> Refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
+> Refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
 

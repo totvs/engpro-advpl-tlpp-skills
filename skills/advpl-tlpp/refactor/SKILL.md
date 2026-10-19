@@ -399,4 +399,4 @@ TLPP supports namespaces for modular code organization. Add them to new or migra
 | SQL Safety      | Dynamic SQL values use `FWExecStatement`, not string concatenation                                                |
 | ISAM            | `MSCREATE` / `DBCREATE` / `CRIATRAB` migrated to `FWTemporaryTable`                                                   |
 
-> Refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
+> Refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.

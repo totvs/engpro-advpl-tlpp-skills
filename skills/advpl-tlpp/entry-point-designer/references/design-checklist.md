@@ -44,4 +44,4 @@ Use this checklist before delivering any Entry Point implementation.
 - [ ] `GetMV()` / `ExistBlock()` results cached before use in loops
 - [ ] Logging via `FWLogMsg()`, not `ConOut()`
 
-> For the complete SonarQube rules reference, see [sonarqube-rules-reference.md](../../references/sonarqube-rules-reference.md).
+> For the complete SonarQube rules reference, see [sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md).

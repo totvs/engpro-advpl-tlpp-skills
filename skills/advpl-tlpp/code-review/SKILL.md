@@ -39,7 +39,7 @@ This skill uses progressive disclosure. The SKILL.md body covers the review work
 | [references/code-quality-patterns.md](references/code-quality-patterns.md) | Reviewing **performance, legacy code, metadata access, or compilation** issues | Loop/transaction anti-patterns, ISAM migration, deprecated API replacements, SX* metadata access table, encoding rules |
 | [references/documentation-and-conventions.md](references/documentation-and-conventions.md) | Reviewing **ProtheusDOC, naming conventions, clean code**, or **TLPP-specific** patterns | ProtheusDOC tag reference, common documentation mistakes, variable naming/scope conventions, TLPP type annotations, namespace, Try-Catch |
 
-> Also refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
+> Also refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
 
 ---
 
@@ -218,7 +218,7 @@ Output the review as follows:
 
 ## Quick Reference: All SonarQube Rules
 
-For the complete rule definitions, severity levels, prohibited patterns, and required alternatives, consult [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md).
+For the complete rule definitions, severity levels, prohibited patterns, and required alternatives, consult [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md).
 
 | Group | Rules | Focus |
 |-------|-------|-------|

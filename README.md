@@ -26,6 +26,8 @@ IAs podem errar.
 - [Agentes Suportados](#agentes-suportados)
 - [Coleções Disponíveis](#coleções-disponíveis)
 - [Como Usar](#como-usar)
+  - [Instalação via CLI](#instalação-via-cli)
+  - [Instalação Manual](#instalação-manual)
   - [Onde as Skills Ficam](#onde-as-skills-ficam)
 - [`CLAUDE.md` e `AGENTS.md` — Instruções de Contexto](#claude-md-e-agents-md-instruções-de-contexto)
   - [O que são `CLAUDE.md` e `AGENTS.md`?](#o-que-são-claude-md-e-agents-md)
@@ -88,6 +90,45 @@ Cada diretório na raiz do repositório representa uma **coleção de skills** v
 > Novas coleções para outras linguagens e frameworks serão adicionadas progressivamente.
 
 ## Como Usar
+
+Você pode instalar as skills via CLI ou manualmente.
+
+### Instalação via CLI
+
+A CLI [skills](https://github.com/vercel-labs/skills) permite instalar diretamente do GitHub.
+
+**Pré-requisitos:** [Node.js](https://nodejs.org/) **22.20.0 ou superior**, npm/npx e [Git](https://git-scm.com/) no terminal (requisitos da CLI 1.7.2).
+
+Na **raiz do projeto que receberá as skills**, execute:
+
+```sh
+npx skills add totvs/engpro-advpl-tlpp-skills
+```
+
+Selecione as skills e os agentes no assistente interativo. As duas coleções são descobertas automaticamente. Para listar sem instalar, acrescente `--list`.
+
+Para instalar todas as skills no projeto, por exemplo para GitHub Copilot:
+
+```sh
+npx skills add totvs/engpro-advpl-tlpp-skills --skill '*' --agent github-copilot --copy --yes
+```
+
+Troque o valor de `--agent` conforme o agente utilizado:
+
+| Agente | `--agent` | Destino no projeto (CLI 1.7.2) |
+|--------|-----------|-------------------------------|
+| GitHub Copilot | `github-copilot` | `.agents/skills/` |
+| OpenAI Codex | `codex` | `.agents/skills/` |
+| Claude Code | `claude-code` | `.claude/skills/` |
+
+- Para uma única skill, substitua `--skill '*'` por `--skill mvc-generator`.
+- Acrescente `--global` para instalar no escopo pessoal. `--copy` evita links simbólicos e `--yes` confirma as escolhas.
+- Evite `--all` se quiser apenas um agente: essa opção seleciona todos os agentes.
+- No PowerShell, se `npx.ps1` estiver bloqueado, use `npx.cmd`.
+
+Os arquivos de contexto em [`instructions/`](instructions/README.md) devem ser configurados separadamente, conforme a seção abaixo. A CLI não instala os agentes nem o TOTVS Developer Studio.
+
+### Instalação Manual
 
 Faça download do pacote de skills e coloque as pastas de skills no local apropriado para que seu agente de IA possa acessá-las.
 

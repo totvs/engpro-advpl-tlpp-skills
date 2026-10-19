@@ -89,4 +89,4 @@ For complete Protheus-specific optimization patterns, code examples, and the hig
 - [ ] Index usage verified against SIX dictionary entries
 - [ ] No `IIF()` in SQL construction — use `CASE WHEN` or `If/Else/EndIf` in AdvPL logic
 
-> Refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
+> Refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.

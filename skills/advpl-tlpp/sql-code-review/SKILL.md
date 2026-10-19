@@ -54,7 +54,7 @@ This skill uses progressive disclosure. The SKILL.md body covers the review work
 | [references/sql-performance-and-quality-patterns.md](references/sql-performance-and-quality-patterns.md) | Reviewing **query performance**, **code style**, **anti-patterns**, or **testing strategies** | Query optimization examples, JOIN/aggregation patterns, N+1 and DISTINCT anti-patterns, formatting standards, data integrity checks |
 | [references/database-specific-best-practices.md](references/database-specific-best-practices.md) | Reviewing SQL targeting a **specific database** (PostgreSQL, SQL Server, Oracle) or **cross-database portability** | ANSI SQL cross-database patterns, PostgreSQL (JSONB, GIN), SQL Server (NVARCHAR, COLUMNSTORE), Oracle (sequences, VARCHAR2) |
 
-> Also refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
+> Also refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
 
 ---
 
@@ -300,4 +300,4 @@ Protheus indexes are defined in the SIX dictionary. When writing queries or usin
 - **Validate input length** against SX3 field size before inserting/updating
 - **Use `FWExecView`** for user-facing queries when possible (respects field-level security)
 
-> Refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
+> Refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.

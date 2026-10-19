@@ -38,7 +38,7 @@ This skill uses progressive disclosure. The SKILL.md body covers conventions, de
 | [references/query-patterns-and-examples.md](references/query-patterns-and-examples.md) | Generating **query code** — Workarea, Embedded SQL, multi-table JOINs, TCSqlExec updates, counting, or reviewing SQL injection prevention examples | Full code templates for all 5 query patterns, safe/unsafe FWExecStatement examples, LIKE clause parameterization |
 | [references/cross-database-compatibility.md](references/cross-database-compatibility.md) | Handling **cross-database concerns** — ChangeQuery(), TCGetDB(), DBAccess macros, or translating functions between MSSQL / PostgreSQL / Oracle | ChangeQuery and TCGetDB code examples, DBAccess macros table, cross-database function equivalents (9 operations × 4 dialects) |
 
-> Also refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
+> Also refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference shared across skills.
 
 ---
 
@@ -247,7 +247,7 @@ For LIKE clauses, build the `%` wildcard on the AdvPL side (`"%" + cSearch + "%"
 - [ ] No `CREATE PROCEDURE` in source — use SPManager
 - [ ] `GetMV()`/`ExistBlock()` results cached before use in loops
 
-> Refer to [references/sonarqube-rules-reference.md](../references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
+> Refer to [references/sonarqube-rules-reference.md](https://github.com/totvs/engpro-advpl-tlpp-skills/blob/main/skills/advpl-tlpp/references/sonarqube-rules-reference.md) for the complete SonarQube rules reference.
 
 ---
 
