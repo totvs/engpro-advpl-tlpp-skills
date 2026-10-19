@@ -227,7 +227,7 @@ return ""
 
 - Always filter `D_E_L_E_T_ = ' '` in SQL queries (Protheus soft-delete)
 - Always filter by branch: `XX_FILIAL = xFilial('XXX')` or equivalent
-- Use `FWExecStatement` or `ChangeQuery()` for SQL injection prevention
+- Use `FWExecStatement` with `?` bind parameters for SQL injection prevention (`ChangeQuery()` only translates the SQL dialect; it does not prevent injection)
 - Use `RetSqlName()` to get the physical table name (e.g.: `SA1010`)
 - **Never use `%nolock%`** (or any lock hint) in embedded SQL: it is not a BeginSQL/DBAccess macro, reaches the database literally and fails at runtime (e.g. SQL Server error 102, `Incorrect syntax near '%'`). Use `FROM %table:XXX% XXX`
 - Never call `GetMV()`, `SuperGetMV()`, `ExistBlock()`, `Type()`, or `Pergunte()` inside loops

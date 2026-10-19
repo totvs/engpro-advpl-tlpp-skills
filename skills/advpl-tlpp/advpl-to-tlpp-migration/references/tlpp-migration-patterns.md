@@ -87,7 +87,7 @@ Add types to variables, parameters, and return values.
 +   nResult := DangerousOperation()
 + Catch oError
 +   nResult := 0
-+   ConOut("[MyFunction] Error: " + oError:Description)
++   FWLogMsg("ERROR", , "MYGROUP", FunName(), , "01", "[MyFunction] Error: " + oError:Description)
 + EndTry
 ```
 
@@ -337,14 +337,6 @@ Direct override of the `FormCommit` method is prohibited. Use `FWModelEvent` for
 -   // custom logic
 -   _Super:FormCommit(oModel)
 - Return
-
-+ // GOOD: Use FWModelEvent for interception
-+ // Register the event in ModelDef:
-+ oModel:SetCommit({|oModel| MyCommitHandler(oModel)})
-+
-+ Static Function MyCommitHandler(oModel as Object) as Logical
-+   // Pre-commit custom logic
-+   FWFormCommit(oModel)  // Standard persistence
-+   // Post-commit custom logic
-+ Return .T.
 ```
+
+> **Note:** Commit customization should be done in an `FWModelEvent` subclass registered in the model (see the TDN documentation for `FWModelEvent`), not by overriding `FormCommit`. `SetCommit` is not a method of `MPFormModel`.

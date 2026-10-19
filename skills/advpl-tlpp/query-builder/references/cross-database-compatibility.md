@@ -23,7 +23,7 @@ cAlias := oStatement:OpenAlias()
 oStatement:Destroy()
 ```
 
-> **Tip:** `FWExecStatement` is the preferred way to execute Embedded SQL — it calls `ChangeQuery()` once and binds parameters at the DB side. The legacy `TCQuery cQuery New Alias ...` macro and `BeginSQL/EndSQL` blocks also call `ChangeQuery()` automatically (unless `%noparser%` is specified), but they don't provide bind-parameter safety on their own.
+> **Tip:** `FWExecStatement` is the preferred way to execute Embedded SQL — it binds parameters at the DB side, which is what prevents SQL injection (`ChangeQuery()` only translates the dialect). The examples in this skill call `ChangeQuery()` explicitly on the SQL before passing it to `FWExecStatement`; follow that pattern. The legacy `TCQuery cQuery New Alias ...` macro and `BeginSQL/EndSQL` blocks also call `ChangeQuery()` automatically (unless `%noparser%` is specified), but they don't provide bind-parameter safety on their own.
 
 ---
 

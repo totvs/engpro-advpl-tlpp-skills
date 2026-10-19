@@ -176,6 +176,7 @@ powershell -NoProfile -Command ^
     "$text=$utf8.GetString($bytes); " ^
     "$cp1252=[Text.Encoding]::GetEncoding(1252); " ^
     "$out=$cp1252.GetBytes($text); " ^
+    "if($cp1252.GetString($out) -ne $text){Write-Host 'WARNING: characters without CP1252 mapping replaced by ?'} " ^
     "if($out.Length -eq 0 -and $bytes.Length -gt 0){Write-Error 'Conversion produced empty output';exit 1} " ^
     "[IO.File]::WriteAllBytes($f,$out)"
 

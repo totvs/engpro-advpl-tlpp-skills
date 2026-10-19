@@ -207,7 +207,7 @@ WHERE D_E_L_E_T_ = ' '
 | Filter | Purpose |
 |--------|---------|
 | `D_E_L_E_T_ = ' '` | Excludes logically deleted records (soft delete). Always required. |
-| `<prefix>_FILIAL = cFilAnt` | Multi-branch filter (tenant isolation). Required unless deliberately querying across branches. |
+| `<prefix>_FILIAL = FWxFilial("XXX")` | Multi-branch filter (tenant isolation). Required unless deliberately querying across branches. Always use `xFilial()`/`FWxFilial()`; flag `cFilAnt` in a branch filter as a defect (on a shared table the branch field is blank, so the query returns zero rows). |
 
 ### Workarea vs. Embedded SQL Decision Matrix
 
