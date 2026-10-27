@@ -12,7 +12,7 @@ metadata:
 
 # SQL Code Review
 
-Perform a thorough SQL code review of ${selection} (or entire project if no selection) focusing on security, performance, maintainability, and database best practices.
+Perform a thorough SQL code review of user-provided SQL code (or entire project if no selection) focusing on security, performance, maintainability, and database best practices.
 
 ## Review Categories
 
