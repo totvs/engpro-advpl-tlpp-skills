@@ -68,7 +68,7 @@ Instale skills em qualquer um desses agentes de IA para desenvolvimento de softw
 |                     Populares                             |                            Promissores                                 |                   Corporativos                   |
 | :-------------------------------------------------------: | :--------------------------------------------------------------------: | :-----------------------------------------------------: |
 |         **[Claude Code](https://claude.ai/code)**         |                    **[Aider](https://aider.chat)**                     |   **[Amazon Q](https://aws.amazon.com/q/developer/)**   |
-|        **[Cline](https://github.com/cline/cline)**        |               **[Antigravity](https://idx.google.com)**                |       **[Augment](https://www.augmentcode.com)**        |
+|        **[Cline](https://github.com/cline/cline)**        |         **[Google Antigravity](https://antigravity.google)**          |       **[Augment](https://www.augmentcode.com)**        |
 |             **[Cursor](https://cursor.com)**              | **[Gemini CLI](https://ai.google.dev/gemini-api/docs/code-execution)** |    **[Droid (Factory.ai)](https://www.factory.ai)**     |
 | **[GitHub Copilot](https://github.com/features/copilot)** |                  **[Kilo Code](https://kilocode.ai)**                  | **[OpenCode](https://github.com/opencode-ai/opencode)** |
 |       **[Windsurf](https://codeium.com/windsurf)**        |                     **[Kiro](https://kiro.dev/)**                      |  **[Sourcegraph Cody](https://sourcegraph.com/cody)**   |
@@ -102,24 +102,25 @@ Faça download do pacote de skills e coloque as pastas de skills no local apropr
 
 | Escopo | Caminhos suportados | Aplica-se a |
 |--------|---------------------|-------------|
-| Pessoal | `~/.claude/skills/<skill>/SKILL.md`<br>`~/.agents/skills/<skill>/SKILL.md`<br>`~/.copilot/skills/<skill>/SKILL.md` | Todos os seus projetos |
+| Pessoal | `~/.claude/skills/<skill>/SKILL.md`<br>`~/.gemini/skills/<skill>/SKILL.md`<br>`~/.agents/skills/<skill>/SKILL.md`<br>`~/.copilot/skills/<skill>/SKILL.md` | Todos os seus projetos |
 | Projeto | `.claude/skills/<skill>/SKILL.md`<br>`.github/skills/<skill>/SKILL.md`<br>`.agents/skills/<skill>/SKILL.md` | Apenas este projeto |
 | Plugin | `<plugin>/skills/<skill>/SKILL.md` | Onde o plugin está habilitado |
 
-## `CLAUDE.md` e `AGENTS.md` — Instruções de Contexto
+## `CLAUDE.md`, `AGENTS.md` e `GEMINI.md` — Instruções de Contexto
 
-Além das skills, este repositório fornece **CLAUDE.md** e **AGENTS.md** — arquivos de instruções de contexto que configuram o agente de IA com conhecimento fundamental sobre um ecossistema antes mesmo de ele começar a trabalhar. Enquanto skills ensinam *como fazer* tarefas específicas, CLAUDE.md e AGENTS.md ensinam *o que o agente precisa saber* sobre o projeto.
+Além das skills, este repositório fornece **CLAUDE.md**, **AGENTS.md** e **GEMINI.md** — arquivos de instruções de contexto que configuram o agente de IA com conhecimento fundamental sobre um ecossistema antes mesmo de ele começar a trabalhar. Enquanto skills ensinam *como fazer* tarefas específicas, CLAUDE.md, AGENTS.md e GEMINI.md ensinam *o que o agente precisa saber* sobre o projeto.
 
-> **⚠️ Importante:** Os arquivos `CLAUDE.md` e `AGENTS.md` possuem **o mesmo conteúdo** — são equivalentes. A diferença é apenas o nome do arquivo, que existe para compatibilidade com diferentes agentes de IA. **Use apenas um deles**, conforme o agente que você utiliza:
+> **⚠️ Importante:** Os arquivos `CLAUDE.md`, `AGENTS.md` e `GEMINI.md` possuem **o mesmo conteúdo** — são equivalentes. A diferença é apenas o nome do arquivo, que existe para compatibilidade com diferentes agentes de IA. **Use apenas um deles**, conforme o agente que você utiliza:
 >
 > - **`CLAUDE.md`** — reconhecido nativamente pelo **Claude Code**.
 > - **`AGENTS.md`** — reconhecido nativamente pelo **GitHub Copilot**, **Cursor**, **Windsurf** e outros agentes que seguem o [padrão aberto](https://agents.md/).
+> - **`GEMINI.md`** — reconhecido nativamente pelo **Google Antigravity** e **Gemini CLI**.
 >
 > Não é necessário (nem recomendado) usar ambos ao mesmo tempo no mesmo workspace.
 
-### O que são `CLAUDE.md` e `AGENTS.md`?
+### O que são `CLAUDE.md`, `AGENTS.md` e `GEMINI.md`?
 
-Os arquivos [`CLAUDE.md`](instructions/CLAUDE.md) e [`AGENTS.md`](instructions/AGENTS.md) são **o mesmo conjunto de instruções de contexto para workspaces do ecossistema TOTVS Protheus ERP**, disponibilizados com dois nomes diferentes para compatibilidade com múltiplos agentes. Eles contêm:
+Os arquivos [`CLAUDE.md`](instructions/CLAUDE.md), [`AGENTS.md`](instructions/AGENTS.md) e [`GEMINI.md`](instructions/GEMINI.md) são **o mesmo conjunto de instruções de contexto para workspaces do ecossistema TOTVS Protheus ERP**, disponibilizados com múltiplos nomes para compatibilidade com múltiplos agentes. Eles contêm:
 
 | Seção | Conteúdo |
 |-------|----------|
@@ -136,18 +137,19 @@ Os arquivos [`CLAUDE.md`](instructions/CLAUDE.md) e [`AGENTS.md`](instructions/A
 
 Com essas informações carregadas, o agente já entende as convenções, restrições e boas práticas do projeto — sem que você precise explicar a cada conversa.
 
-### Como Usar o `CLAUDE.md` e `AGENTS.md`
+### Como Usar o `CLAUDE.md`, `AGENTS.md` e `GEMINI.md`
 
-Escolha **um** dos dois arquivos conforme o agente que você utiliza e copie-o para a **raiz do seu repositório ou workspace**. A maioria dos agentes de IA detecta automaticamente arquivos de instruções na raiz do projeto.
+Escolha **um** dos arquivos conforme o agente que você utiliza e copie-o para a **raiz do seu repositório ou workspace**. A maioria dos agentes de IA detecta automaticamente arquivos de instruções na raiz do projeto.
 
 | Arquivo | Agentes que reconhecem nativamente |
 |---------|------------------------------------|
 | [`CLAUDE.md`](instructions/CLAUDE.md) | Claude Code |
 | [`AGENTS.md`](instructions/AGENTS.md) | GitHub Copilot, Cursor, Windsurf, Cline, Kilo Code, Roo Code e outros |
+| [`GEMINI.md`](instructions/GEMINI.md) | Google Antigravity, Gemini CLI |
 
 Caso o seu agente exija um caminho ou nome de arquivo específico, crie um link simbólico ou copie o arquivo para o local adequado.
 
-> **Dica:** O CLAUDE.md e AGENTS.md complementam as skills. Use-os para dar contexto permanente ao agente e as skills para ensinar fluxos de trabalho específicos.
+> **Dica:** O CLAUDE.md, AGENTS.md e GEMINI.md complementam as skills. Use-os para dar contexto permanente ao agente e as skills para ensinar fluxos de trabalho específicos.
 
 ---
 

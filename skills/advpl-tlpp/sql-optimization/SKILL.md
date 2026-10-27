@@ -12,7 +12,7 @@ metadata:
 
 # SQL Performance Optimization Assistant
 
-Expert SQL performance optimization for ${selection} (or entire project if no selection). Focus on universal SQL optimization techniques that work across PostgreSQL, SQL Server, Oracle, and other SQL databases.
+Expert SQL performance optimization for user-provided SQL code (or entire project if no selection). Focus on universal SQL optimization techniques that work across PostgreSQL, SQL Server, Oracle, and other SQL databases.
 
 ## Core Optimization Areas
 

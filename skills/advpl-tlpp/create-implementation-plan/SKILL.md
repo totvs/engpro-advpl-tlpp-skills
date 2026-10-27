@@ -14,7 +14,7 @@ metadata:
 
 ## Primary Directive
 
-Your goal is to create a new implementation plan file for `${input:PlanPurpose}`. Your output must be machine-readable, deterministic, and structured for autonomous execution by other AI systems or humans.
+Your goal is to create a new implementation plan file for the specified goal or purpose. Your output must be machine-readable, deterministic, and structured for autonomous execution by other AI systems or humans.
 
 ## Execution Context
 

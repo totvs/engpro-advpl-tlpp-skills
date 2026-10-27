@@ -1,6 +1,6 @@
 ---
 name: refactor-method-complexity-reduce
-description: "Refactor given method `${input:methodName}` to reduce its cognitive complexity to `${input:complexityThreshold}` or below, by extracting helper methods. Use when user says 'reduce complexity', 'simplify method', 'cognitive complexity too high'."
+description: "Refactor a given method to reduce its cognitive complexity to a specified threshold or below, by extracting helper methods. Use when user says 'reduce complexity', 'simplify method', 'cognitive complexity too high'."
 license: MIT
 metadata:
   domain: Protheus
@@ -14,7 +14,7 @@ metadata:
 
 ## Objective
 
-Refactor the method `${input:methodName}`, to reduce its cognitive complexity to `${input:complexityThreshold}` or below, by extracting logic into focused helper methods.
+Refactor the specified method to reduce its cognitive complexity to the target threshold or below, by extracting logic into focused helper methods.
 
 ## Instructions
 
@@ -69,7 +69,7 @@ Refactor the method `${input:methodName}`, to reduce its cognitive complexity to
 
 The refactored method should:
 
-- Have cognitive complexity reduced to the target threshold of `${input:complexityThreshold}` or below
+- Have cognitive complexity reduced to the specified target threshold or below
 - Be more readable and maintainable
 - Have clear separation of concerns
 - Be easier to test and debug
@@ -96,14 +96,14 @@ The refactored method should:
    - Re-run tests and verify "failed=0" in the output
    - Repeat until all tests pass (failed=0)
 4. **Verify compilation** - Ensure there are no compilation errors
-5. **Check cognitive complexity** - Confirm the metric is at or below the target threshold of `${input:complexityThreshold}`
+5. **Check cognitive complexity** - Confirm the metric is at or below the target threshold
 
 ## Confirmation Checklist
 
 - [ ] Code compiles without errors
 - [ ] **Test results explicitly state "failed=0"** (verified by reading the output)
 - [ ] All test failures analyzed and corrected (if any occurred)
-- [ ] Cognitive complexity is at or below the target threshold of `${input:complexityThreshold}`
+- [ ] Cognitive complexity is at or below the target threshold
 - [ ] All original functionality is preserved
 - [ ] Code follows project conventions and standards
 
