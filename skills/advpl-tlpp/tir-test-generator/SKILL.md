@@ -88,7 +88,7 @@ Every TIR test project requires **three files**:
     "User": "{username}",
     "Password": "{password}",
     "Language": "pt-br",
-    "POUILogin": true,
+    "POUILogin": true
 }
 ```
 
@@ -191,8 +191,8 @@ class {ROUTINE}(unittest.TestCase):
         inst.oHelper.Setup('{MODULE}', '{DATE}', 'T1', '{BRANCH}')
         inst.oHelper.Program('{ROUTINE}')
 
-    def test_{ROUTINE}_CT001(self):
-        """CT001 — Include record with required fields"""
+    def test_{ROUTINE}_001(self):
+        """001 — Include record with required fields"""
         self.oHelper.SetButton('Incluir')
         self.oHelper.SetBranch('{BRANCH}')
         self.oHelper.SetValue('{Field Label 1}', '{value1}')
@@ -204,23 +204,23 @@ class {ROUTINE}(unittest.TestCase):
         self.oHelper.SetButton('Cancelar')
         self.oHelper.AssertTrue()
 
-    def test_{ROUTINE}_CT002(self):
-        """CT002 — Edit existing record"""
+    def test_{ROUTINE}_002(self):
+        """002 — Edit existing record"""
         self.oHelper.SearchBrowse(f'{BRANCH}{search_key}', key='Filial+{Search Column}')
         self.oHelper.SetButton('Alterar')
         self.oHelper.SetValue('{Field Label}', '{new_value}')
         self.oHelper.SetButton('Salvar')
         self.oHelper.AssertTrue()
 
-    def test_{ROUTINE}_CT003(self):
-        """CT003 — Delete record"""
+    def test_{ROUTINE}_003(self):
+        """003 — Delete record"""
         self.oHelper.SearchBrowse(f'{BRANCH}{search_key}', key='Filial+{Search Column}')
         self.oHelper.SetButton('Outras Ações', sub_item='Excluir')
         self.oHelper.SetButton('Confirmar')
         self.oHelper.AssertTrue()
 
-    def test_{ROUTINE}_CT004(self):
-        """CT004 — Validate required field rule (negative)"""
+    def test_{ROUTINE}_004(self):
+        """004 — Validate required field rule (negative)"""
         self.oHelper.SetButton('Incluir')
         self.oHelper.SetButton('Salvar')
         self.oHelper.CheckHelp(text_help='{HELP_ID}', button='Fechar')
@@ -262,8 +262,8 @@ class {ROUTINE}(unittest.TestCase):
         inst.oHelper_Webapp.Setup('{MODULE}', '{DATE}', 'T1', '{BRANCH}')
         inst.oHelper_Webapp.Program('{ROUTINE}')
 
-    def test_{ROUTINE}_CT001(self):
-        """CT001 — Include record with required fields"""
+    def test_{ROUTINE}_001(self):
+        """001 — Include record with required fields"""
         self.oHelper_Poui.ClickButton('Novo')
         self.oHelper_Poui.InputValue('{Field Label 1}', '{value1}')
         self.oHelper_Poui.InputValue('{Field Label 2}', '{value2}')
@@ -273,21 +273,21 @@ class {ROUTINE}(unittest.TestCase):
         self.oHelper_Poui.ClickButton('Cancelar')
         self.oHelper_Poui.AssertTrue()
 
-    def test_{ROUTINE}_CT002(self):
-        """CT002 — Edit existing record"""
+    def test_{ROUTINE}_002(self):
+        """002 — Edit existing record"""
         self.oHelper_Poui.ClickTable(columns='{Column}', values='{search_key}', click_cell='Editar')
         self.oHelper_Poui.InputValue('{Field Label}', '{new_value}')
         self.oHelper_Poui.ClickButton('Salvar')
         self.oHelper_Poui.AssertTrue()
 
-    def test_{ROUTINE}_CT003(self):
-        """CT003 — Delete record"""
+    def test_{ROUTINE}_003(self):
+        """003 — Delete record"""
         self.oHelper_Poui.ClickTable(columns='{Column}', values='{search_key}', click_cell='Excluir')
         self.oHelper_Poui.ClickButton('Confirmar')
         self.oHelper_Poui.AssertTrue()
 
-    def test_{ROUTINE}_CT004(self):
-        """CT004 — Validate required field rule (negative)"""
+    def test_{ROUTINE}_004(self):
+        """004 — Validate required field rule (negative)"""
         self.oHelper_Poui.ClickButton('Novo')
         self.oHelper_Poui.ClickButton('Salvar')
         # PO-UI has no WaitHide — use WaitShow / WaitProcessing / IfExists to sync,
@@ -318,14 +318,48 @@ from {ROUTINE}TESTCASE import {ROUTINE}
 
 suite = unittest.TestSuite()
 
-suite.addTest({ROUTINE}('test_{ROUTINE}_CT001'))
-suite.addTest({ROUTINE}('test_{ROUTINE}_CT002'))
-suite.addTest({ROUTINE}('test_{ROUTINE}_CT003'))
-suite.addTest({ROUTINE}('test_{ROUTINE}_CT004'))
+suite.addTest({ROUTINE}('test_{ROUTINE}_001'))
+suite.addTest({ROUTINE}('test_{ROUTINE}_002'))
+suite.addTest({ROUTINE}('test_{ROUTINE}_003'))
+suite.addTest({ROUTINE}('test_{ROUTINE}_004'))
 
 runner = unittest.TextTestRunner(verbosity=2)
 runner.run(suite)
 ```
+
+---
+
+## Test Method Naming (MANDATORY)
+
+Test methods are named **exclusively** `test_{ROUTINE}_{NNN}`:
+
+- `{ROUTINE}` — the routine name, identical to the class name (e.g., `MATA410`)
+- `{NNN}` — 3-digit zero-padded sequence, starting at `001` and following the order of the tests in the
+  file (`001`, `002`, `003`, ...). No gaps, no reuse.
+
+Nothing else goes in the method name: **no `CT` prefix, no scenario description, no suffix**. The
+scenario description belongs in the docstring (and, when useful, in a `#` comment) — never in the
+`def` line.
+
+```python
+# Correct
+def test_MATA410_001(self):
+    """Include sales order for customer with positive credit limit"""
+
+# Wrong — "CT" prefix
+def test_MATA410_CT001(self):
+
+# Wrong — description in the method name
+def test_MATA410_001_incluir_pedido_com_limite_credito_positivo(self):
+
+# Wrong — both
+def test_MATA410_CT001_incluir_pedido_com_limite_credito_positivo(self):
+```
+
+The same names are used in the TESTSUITE `suite.addTest({ROUTINE}('test_{ROUTINE}_{NNN}'))` calls, in the
+same order. This rule applies even when the spec, a test plan, or an existing script numbers scenarios as
+`CT001`, `CT133`, etc. — renumber sequentially (`001`, `002`, ...) and, if traceability to the original
+ID is needed, mention it in the docstring (e.g., `"""Include customer (ref. plan CT133)"""`).
 
 ---
 
@@ -514,6 +548,7 @@ The moments the generator is most tempted to cut corners — and what actually h
 | "`'Sair'`, `'Fechar'`, `'Cancelar'` — whatever, they all close the window." | They close **different** windows. A wrong label produces a TIR warning that most CI pipelines swallow. See *Close buttons* above. |
 | "`WaitShow('SubClientes')` is enough — if the screen appeared, the test passes." | No. `WaitShow` only confirms a string is on the page. Assert **content** (the expected child record, a specific field value). |
 | "The spec references pre-existing customers `000033`, `000050`... I'll just use them. If they don't exist, TIR will create an error and we catch it later." | The error is `SearchBrowse did not find`. The test marks as failure, not as missing-data. Ensure the required records exist in the environment before running the suite — add a `setUpClass` step that creates them via ExecAuto, or document them as a manual prerequisite in the test file header. |
+| "The spec calls it CT001 and the method should be self-explanatory — `test_MATA410_CT001_incluir_pedido_com_limite_credito_positivo` is clearer." | No. The name is **only** `test_{ROUTINE}_{NNN}` (e.g., `test_MATA410_001`), sequential in file order. No `CT` prefix, no description. The description goes in the docstring/comment. See *Test Method Naming*. |
 | "I'll leave `{server}` or `{port}` in `config.json` — the user will fix it." | `config.json` without real values fails at connection, the test never starts, the user debugs the wrong layer. Either fill with sensible defaults (`localhost`, `8080`) or explicitly mark the file with a TODO comment. |
 
 ---
@@ -543,7 +578,9 @@ Before finalizing generated TIR test scripts, verify:
 - [ ] `setUpClass(inst)` contains the correct class instantiation, `Setup()`, and `Program()` calls
 - [ ] `tearDownClass(inst)` contains `TearDown()` call
 - [ ] `Setup()` has correct module, date, group, and branch (4 args — 5th `module` is optional)
-- [ ] Each test method starts with `test_` prefix and has a docstring
+- [ ] Each test method is named exactly `test_{ROUTINE}_{NNN}` (e.g., `test_MATA410_001`) — no `CT` prefix, no description in the name
+- [ ] `{NNN}` is 3-digit, sequential from `001` in the order the tests appear in the file
+- [ ] Each test method has a docstring describing the scenario (description lives here, not in the `def`)
 - [ ] Positive tests end with `self.oHelper.AssertTrue()` — NO parameters
 - [ ] Negative tests end with `self.oHelper.AssertFalse()` — NO parameters
 
@@ -578,7 +615,7 @@ Before finalizing generated TIR test scripts, verify:
 - [ ] `import unittest` present
 - [ ] `from {ROUTINE}TESTCASE import {ROUTINE}` present
 - [ ] `suite = unittest.TestSuite()` created
-- [ ] `suite.addTest({ROUTINE}('test_{ROUTINE}_CT00N'))` for each test method
+- [ ] `suite.addTest({ROUTINE}('test_{ROUTINE}_00N'))` for each test method
 - [ ] `runner = unittest.TextTestRunner(verbosity=2)` present
 - [ ] `runner.run(suite)` present
 

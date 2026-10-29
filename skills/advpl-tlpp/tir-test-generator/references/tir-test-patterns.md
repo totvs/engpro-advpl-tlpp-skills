@@ -2,13 +2,18 @@
 
 All patterns below show only the TESTCASE methods. The TESTSUITE file always follows the same structure — see the SKILL.md for the TESTSUITE template.
 
+> **Method naming:** always `test_{ROUTINE}_{NNN}` (e.g., `test_MATA410_001`), 3-digit sequence following
+> the order of the tests in the file. No `CT` prefix and no description in the method name — the scenario
+> description goes in the docstring. The numbers in the patterns below are illustrative; in a generated
+> file, renumber sequentially from `001`.
+
 ---
 
 ## Pattern 1: Standard CRUD — Include Record
 
 ```python
-def test_{ROUTINE}_CT001(self):
-    """CT001 — Include a new record with required fields"""
+def test_{ROUTINE}_001(self):
+    """001 — Include a new record with required fields"""
 
     self.oHelper.SetButton('Incluir')
     self.oHelper.SetBranch('{BRANCH}')
@@ -32,8 +37,8 @@ def test_{ROUTINE}_CT001(self):
 ## Pattern 2: Standard CRUD — Edit Record
 
 ```python
-def test_{ROUTINE}_CT002(self):
-    """CT002 — Edit an existing record"""
+def test_{ROUTINE}_002(self):
+    """002 — Edit an existing record"""
 
     self.oHelper.SearchBrowse(f'{BRANCH}{search_key}', 'Filial+{Search Column}')
     self.oHelper.SetButton('Alterar')
@@ -55,8 +60,8 @@ def test_{ROUTINE}_CT002(self):
 ## Pattern 3: Standard CRUD — Delete Record
 
 ```python
-def test_{ROUTINE}_CT003(self):
-    """CT003 — Delete an existing record"""
+def test_{ROUTINE}_003(self):
+    """003 — Delete an existing record"""
 
     self.oHelper.SearchBrowse(f'{BRANCH}{search_key}', 'Filial+{Search Column}')
     self.oHelper.SetButton('Outras Ações', sub_item='Excluir')
@@ -68,8 +73,8 @@ def test_{ROUTINE}_CT003(self):
 ## Pattern 4: Master-Detail with Grid
 
 ```python
-def test_{ROUTINE}_CT004(self):
-    """CT004 — Include record with grid items (master-detail)"""
+def test_{ROUTINE}_004(self):
+    """004 — Include record with grid items (master-detail)"""
 
     self.oHelper.SetButton('Incluir')
     self.oHelper.SetBranch('{BRANCH}')
@@ -96,8 +101,8 @@ def test_{ROUTINE}_CT004(self):
 ## Pattern 5: Screen with Tabs/Folders
 
 ```python
-def test_{ROUTINE}_CT005(self):
-    """CT005 — Include record navigating through tabs"""
+def test_{ROUTINE}_005(self):
+    """005 — Include record navigating through tabs"""
 
     self.oHelper.SetButton('Incluir')
     self.oHelper.SetBranch('{BRANCH}')
@@ -120,8 +125,8 @@ def test_{ROUTINE}_CT005(self):
 ## Pattern 6: View/Validate Record
 
 ```python
-def test_{ROUTINE}_CT006(self):
-    """CT006 — View record and validate multiple field values"""
+def test_{ROUTINE}_006(self):
+    """006 — View record and validate multiple field values"""
 
     self.oHelper.SearchBrowse(f'{BRANCH}{search_key}', 'Filial+{Search Column}')
     self.oHelper.SetButton('Visualizar')
@@ -142,8 +147,8 @@ def test_{ROUTINE}_CT006(self):
 ## Pattern 7: Validation Error Test (Negative)
 
 ```python
-def test_{ROUTINE}_CT007(self):
-    """CT007 — Validate that required field error is shown"""
+def test_{ROUTINE}_007(self):
+    """007 — Validate that required field error is shown"""
 
     self.oHelper.SetButton('Incluir')
     self.oHelper.SetBranch('{BRANCH}')
@@ -164,8 +169,8 @@ def test_{ROUTINE}_CT007(self):
 ## Pattern 8: Other Actions Menu
 
 ```python
-def test_{ROUTINE}_CT008(self):
-    """CT008 — Execute an action from the 'Other Actions' menu"""
+def test_{ROUTINE}_008(self):
+    """008 — Execute an action from the 'Other Actions' menu"""
 
     self.oHelper.SearchBrowse(f'{BRANCH}{search_key}', 'Filial+{Search Column}')
     self.oHelper.SetButton('Outras Ações', sub_item='{Action Name}')
@@ -196,8 +201,8 @@ class {REPORT}(unittest.TestCase):
         inst.oHelper.Setup('{MODULE}', '{DATE}', 'T1', '{BRANCH}')
         inst.oHelper.Program('{REPORT_ROUTINE}')
 
-    def test_{REPORT}_CT001(self):
-        """CT001 — Execute report with parameters and validate"""
+    def test_{REPORT}_001(self):
+        """001 — Execute report with parameters and validate"""
 
         # Fill report parameters
         self.oHelper.SetValue('{Param 1 Label}', '{param_value_1}')
@@ -224,7 +229,7 @@ import unittest
 from {REPORT}TESTCASE import {REPORT}
 
 suite = unittest.TestSuite()
-suite.addTest({REPORT}('test_{REPORT}_CT001'))
+suite.addTest({REPORT}('test_{REPORT}_001'))
 
 runner = unittest.TextTestRunner(verbosity=2)
 runner.run(suite)
@@ -233,8 +238,8 @@ runner.run(suite)
 ## Pattern 10: Grid Checkbox Selection
 
 ```python
-def test_{ROUTINE}_CT010(self):
-    """CT010 — Select items via grid checkboxes"""
+def test_{ROUTINE}_010(self):
+    """010 — Select items via grid checkboxes"""
 
     self.oHelper.SearchBrowse(f'{BRANCH}{search_key}', 'Filial+{Search Column}')
     self.oHelper.SetButton('{Action}')
@@ -269,8 +274,8 @@ class {ROUTINE}(unittest.TestCase):
         inst.oHelper_Webapp.Setup('{MODULE}', '{DATE}', 'T1', '{BRANCH}')
         inst.oHelper_Webapp.Program('{ROUTINE}')
 
-    def test_{ROUTINE}_CT001(self):
-        """CT001 — Include record on a PO-UI screen"""
+    def test_{ROUTINE}_001(self):
+        """001 — Include record on a PO-UI screen"""
 
         self.oHelper_Poui.ClickButton('Novo')
         self.oHelper_Poui.InputValue('{Field Label 1}', '{value1}')
@@ -284,8 +289,8 @@ class {ROUTINE}(unittest.TestCase):
 
         self.oHelper_Poui.AssertTrue()
 
-    def test_{ROUTINE}_CT002(self):
-        """CT002 — Required field validation (negative)"""
+    def test_{ROUTINE}_002(self):
+        """002 — Required field validation (negative)"""
 
         self.oHelper_Poui.ClickButton('Novo')
         self.oHelper_Poui.ClickButton('Salvar')
@@ -328,8 +333,8 @@ class MATA030(unittest.TestCase):
         inst.oHelper.Setup('SIGAFAT', '11/04/2019', 'T1', 'D MG 01 ', '05')
         inst.oHelper.Program('MATA030')
 
-    def test_MATA030_CT133(self):
-        """CT133 — Include customer with required fields"""
+    def test_MATA030_001(self):
+        """001 — Include customer with required fields"""
 
         cliente = 'FTC138'
         loja = '01'
@@ -340,8 +345,8 @@ class MATA030(unittest.TestCase):
         self.oHelper.SetValue('A1_COD', cliente)
         self.oHelper.SetValue('A1_LOJA', loja)
         self.oHelper.SetValue('A1_PESSOA', 'F - Fisica')
-        self.oHelper.SetValue('A1_NOME', 'FAT TIR CT133 MATA030 INCLUSAO')
-        self.oHelper.SetValue('A1_NREDUZ', 'TIR CT133 MATA030')
+        self.oHelper.SetValue('A1_NOME', 'FAT TIR 001 MATA030 INCLUSAO')
+        self.oHelper.SetValue('A1_NREDUZ', 'TIR 001 MATA030')
         self.oHelper.SetValue('A1_END', 'RUA DAS ORQUIDEAS, 100')
         self.oHelper.SetValue('A1_TIPO', 'F - Cons.Final')
         self.oHelper.SetValue('A1_EST', 'SP')
@@ -355,8 +360,8 @@ class MATA030(unittest.TestCase):
         self.oHelper.CheckResult('A1_COD', cliente)
         self.oHelper.CheckResult('A1_LOJA', loja)
         self.oHelper.CheckResult('A1_PESSOA', 'F - Fisica')
-        self.oHelper.CheckResult('A1_NOME', 'FAT TIR CT133 MATA030 INCLUSAO')
-        self.oHelper.CheckResult('A1_NREDUZ', 'TIR CT133 MATA030')
+        self.oHelper.CheckResult('A1_NOME', 'FAT TIR 001 MATA030 INCLUSAO')
+        self.oHelper.CheckResult('A1_NREDUZ', 'TIR 001 MATA030')
         self.oHelper.CheckResult('A1_END', 'RUA DAS ORQUIDEAS, 100')
         self.oHelper.CheckResult('A1_TIPO', 'F - Cons.Final')
         self.oHelper.CheckResult('A1_EST', 'SP')
@@ -382,7 +387,7 @@ from MATA030TESTCASE import MATA030
 
 suite = unittest.TestSuite()
 
-suite.addTest(MATA030('test_MATA030_CT133'))
+suite.addTest(MATA030('test_MATA030_001'))
 
 runner = unittest.TextTestRunner(verbosity=2)
 runner.run(suite)

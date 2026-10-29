@@ -329,7 +329,7 @@ After any **code generation, migration, or refactoring** task, the agent MUST pe
 |------|-----------|----------|-------|
 | **TIR** | `tir.Webapp` | Python (`.py`) | End-to-end via SmartClient/Webapp (CRUD, grids, reports) |
 
-- TIR: `unittest.TestCase` with `setUpClass()`, `test_CTNNN()`, `tearDownClass()`
+- TIR: `unittest.TestCase` with `setUpClass()`, `test_{ROUTINE}_{NNN}()` (e.g., `test_MATA410_001`; no `CT` prefix, no description in the name), `tearDownClass()`
 
 ---
 

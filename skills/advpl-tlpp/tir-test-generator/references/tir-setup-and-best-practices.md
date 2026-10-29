@@ -136,16 +136,17 @@ The TESTSUITE imports the TESTCASE and selects which test methods to run via `su
 ### Test Independence
 - Each `test_` method should be independent of other tests
 - Use `setUpClass` for environment configuration only — not for creating test data
-- If tests have data dependencies (e.g., CT002 edits what CT001 created), document this clearly and ensure test execution order via naming convention (`test_CT001`, `test_CT002`)
-- Python's `unittest` runs methods in alphabetical order by default — use `CT001`, `CT002` naming to control order
+- If tests have data dependencies (e.g., `test_MATA010_002` edits what `test_MATA010_001` created), document this clearly in the docstring and ensure execution order via the sequential numbering
+- Python's `unittest` runs methods in alphabetical order by default — the zero-padded sequence (`001`, `002`, ...) controls the order
 
 ### Naming Conventions
 - TESTCASE file: `{ROUTINE}TESTCASE.py` (e.g., `MATA010TESTCASE.py`)
 - TESTSUITE file: `{ROUTINE}TESTSUITE.py` (e.g., `MATA010TESTSUITE.py`)
 - config.json: always `config.json` in the same directory
 - Test class: Same as routine name (e.g., `MATA010`)
-- Test methods: `test_{ROUTINE}_CT{NNN}` (e.g., `test_MATA010_CT001`)
-- Docstrings on each test method describing the scenario
+- Test methods: `test_{ROUTINE}_{NNN}` (e.g., `test_MATA010_001`, `test_MATA010_002`) — 3-digit sequence following the order of the tests in the file
+- Never use a `CT` prefix and never put the scenario description in the method name (`test_MATA410_CT001_incluir_pedido_...` is wrong)
+- Docstrings on each test method describing the scenario — this is where the description goes
 
 ### Branch Handling (Webapp only)
 - Call `SetBranch('{BRANCH}')` after `SetButton('Incluir')` when the branch selection dialog appears

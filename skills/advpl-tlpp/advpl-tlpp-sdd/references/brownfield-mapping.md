@@ -261,7 +261,7 @@ Testes/Automação Protheus/<Country>/
 **TIR:**
 - Location: `Testes/Automação Protheus/<Country>/<MODULE>/Scripts Web/`
 - Naming: [observed pattern]
-- Structure: unittest.TestCase with setUpClass(), test_CTNNN(), tearDownClass()
+- Structure: unittest.TestCase with setUpClass(), test_{ROUTINE}_{NNN}(), tearDownClass()
 
 ## Observed Test Patterns
 
