@@ -283,7 +283,7 @@
         "references/tir-webapp-methods-reference.md"
       ],
       "author": "Thalion Starforge",
-      "version": "5.0.0"
+      "version": "5.1.0"
     },
     {
       "name": "tlpp-rest-endpoint-generator",
